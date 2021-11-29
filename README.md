@@ -19,6 +19,14 @@ c2m2-assessment --help
 c2m2-assessment -v -i datapackage.zip -o results.json
 ```
 
+### Docker
+```bash
+# build the docker image
+docker build -it c2m2-assessment .
+# run the image the same way you would the python cli
+docker run -w /work -v $(pwd):/work -it c2m2-assessment -i datapackage.zip -o results.json
+```
+
 ### Python
 ```python
 from c2m2_assessment.rubric import rubric
