@@ -6,7 +6,7 @@ The main aspect of the assessment is in [c2m2_assessment.rubric](./c2m2_assessme
 
 ## Installation
 ```python
-pip install c2m2_assessment @ git+https://github.com/nih-cfde/c2m2-assessment
+pip install "c2m2-assessment @ git+https://github.com/nih-cfde/c2m2-assessment"
 ```
 
 ## Usage
