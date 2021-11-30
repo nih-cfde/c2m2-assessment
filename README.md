@@ -11,6 +11,8 @@ pip install "c2m2-assessment @ git+https://github.com/nih-cfde/c2m2-assessment"
 
 ## Usage
 
+A more concrete example of executing the assessment can be found [here](./example.md).
+
 ### CLI
 ```bash
 # review the options
