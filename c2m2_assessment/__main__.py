@@ -37,7 +37,15 @@ def cli(input=None, output=None, work=None, verbose=0):
       import zipfile
       with zipfile.ZipFile(input, 'r') as zf:
         zf.extractall(work)
-      input = one(work.rglob('*datapackage.json'))
+      input = one(
+        f
+        for f in work.glob('**/*datapackage.json')
+        # ignore hidden file or directory
+        if not any(
+          part.startswith('.')
+          for part in f.parts
+        )
+      )
     assert input.suffix == '.json', f'Invalid input, expected .json or .zip, got {input.suffix}'
     from deriva_datapackage import create_offline_client
     CFDE = create_offline_client(str(input), cachedir=str(work))
