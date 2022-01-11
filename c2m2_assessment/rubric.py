@@ -78,7 +78,10 @@ def _(CFDE):
   return {
     'value': value,
     'comment': f'{total_qualified_persistent_ids} / {total_files(CFDE)}',
-    'supplement': qualified_persistent_ids.to_dict(),
+    'supplement': pd.concat([
+      qualified_persistent_ids.head(5),
+      qualified_persistent_ids.tail(5),
+    ]).to_dict(),
   }
 
 #%%
