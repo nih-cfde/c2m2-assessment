@@ -1,11 +1,14 @@
-def one(it):
+def one(iterable):
   ''' Take one and only one value from an iterator
   '''
-  it = iter(it)
-  first = next(it)
+  iterator = iter(iterable)
   try:
-    next(it)
-  except StopIteration:
-    return first
-  else:
-    raise Exception('Expected one, got multiple')
+    first = next(iterator)
+    try:
+      next(iterator)
+    except StopIteration:
+      return first
+    else:
+      raise Exception('Expected one, got multiple')
+  except:
+    raise Exception('Expected one, got none')
