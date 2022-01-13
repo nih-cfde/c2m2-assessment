@@ -61,12 +61,14 @@ class Rubric:
       return metric
     return decorator
 
-  def assess(self, targets):
+  def assess(self, targets, metrics=None):
     ''' Assess the given targets against the entire rubric
     '''
+    if metrics is None:
+      metrics = self.metrics.values()
     for target in targets:
       logger.info(f"Target: {target}")
-      for metric in self.metrics.values():
+      for metric in metrics:
         logger.info(f"Metric: {metric}")
         try:
           answer = metric(target)
