@@ -2,7 +2,7 @@ import click
 import logging
 from pathlib import Path
 
-def assess(CFDE, extended=False):
+def assess(CFDE, extended=False, **kwargs):
   ''' Given a CFDE client, perform the assessment and return a table of results
   '''
   import pandas as pd
@@ -15,7 +15,7 @@ def assess(CFDE, extended=False):
   return pd.merge(
     left=pd.DataFrame.from_records([
       answer.to_dict()
-      for answer in rubric.assess([CFDE], metrics=metrics)
+      for answer in rubric.assess([CFDE], metrics=metrics, **kwargs)
     ]),
     left_on='metric',
     right=pd.DataFrame.from_records([
@@ -31,8 +31,9 @@ def assess(CFDE, extended=False):
 @click.option('-o', '--output', type=click.File(mode='w'), default='-', help='Output results')
 @click.option('-w', '--work', type=click.Path(), help='Working directory')
 @click.option('-e', '--extended', is_flag=True, default=False, help='Perform an extended assessment including more metrics')
+@click.option('-f', '--full', is_flag=True, default=False, help='Save full supplemental tables for detailed inspection')
 @click.option('-v', '--verbose', count=True, help='Increase logging level')
-def cli(input=None, output=None, work=None, extended=False, verbose=0):
+def cli(input=None, output=None, work=None, extended=False, full=False, verbose=0):
   ''' Command line interface to assessment, auto-extract zip files, instantiate CFDE client & perform assessment
   '''
   from c2m2_assessment.util.one import one
@@ -55,7 +56,7 @@ def cli(input=None, output=None, work=None, extended=False, verbose=0):
     assert input.suffix == '.json', f'Invalid input, expected .json or .zip, got {input.suffix}'
     from deriva_datapackage import create_offline_client
     CFDE = create_offline_client(str(input), cachedir=str(work))
-    assess(CFDE, extended=extended).to_json(output, orient='records')
+    assess(CFDE, extended=extended, full=full).to_json(output, orient='records')
 
 if __name__ == '__main__':
   cli()

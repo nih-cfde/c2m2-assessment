@@ -61,7 +61,7 @@ class Rubric:
       return metric
     return decorator
 
-  def assess(self, targets, metrics=None):
+  def assess(self, targets, metrics=None, **kwargs):
     ''' Assess the given targets against the entire rubric
     '''
     if metrics is None:
@@ -71,7 +71,7 @@ class Rubric:
       for metric in metrics:
         logger.info(f"Metric: {metric}")
         try:
-          answer = metric(target)
+          answer = metric(target, **kwargs)
         except Exception as e:
           logger.error(traceback.format_exc())
           answer = {

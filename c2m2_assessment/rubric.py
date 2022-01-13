@@ -29,7 +29,7 @@ total_projects = memo(lambda CFDE: CFDE.tables['project'].count())
   'detail': '''The average metadata coverage of all tables''',
   'principle': 'Findable',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   def count_empty(val):
     ''' Attempt to catch some actual null values that aren't really null.
     '''
@@ -68,7 +68,7 @@ def _(CFDE):
   'detail': '''We check that the persistent id that are present are DOIs.''',
   'principle': 'Findable',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   qualified_persistent_ids = pd.Series({
     (file['id_namespace'], file['local_id'], file.get('persistent_id')): 1 if file.get('persistent_id') and re.match(r'^https?://[^/]+\.doi\.org/.+$', file['persistent_id']) else 0
     for file in CFDE.tables['file'].entities()
@@ -78,7 +78,7 @@ def _(CFDE):
   return {
     'value': value,
     'comment': f'{total_qualified_persistent_ids} / {total_files(CFDE)}',
-    'supplement': pd.concat([
+    'supplement': qualified_persistent_ids.to_dict() if full else pd.concat([
       qualified_persistent_ids.head(5),
       qualified_persistent_ids.tail(5),
     ]).to_dict(),
@@ -92,7 +92,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_files_associated_with_data_type = CFDE.tables['data_type'] \
     .link(CFDE.tables['file'], on=(
       CFDE.tables['file'].data_type == CFDE.tables['data_type'].id
@@ -113,7 +113,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_files_associated_with_file_format = CFDE.tables['file_format'] \
     .link(CFDE.tables['file'], on=(
       CFDE.tables['file'].file_format == CFDE.tables['file_format'].id
@@ -134,7 +134,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_files_associated_with_assay_type = CFDE.tables['assay_type'] \
     .link(CFDE.tables['file'], on=(
       CFDE.tables['file'].assay_type == CFDE.tables['assay_type'].id
@@ -155,7 +155,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_files_associated_with_anatomy = CFDE.tables['anatomy'] \
     .link(CFDE.tables['biosample'], on=(
       CFDE.tables['biosample'].anatomy == CFDE.tables['anatomy'].id
@@ -186,7 +186,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_files_associated_with_biosample = CFDE.tables['biosample'] \
     .link(CFDE.tables['file_describes_biosample'], on=((
       CFDE.tables['file_describes_biosample'].biosample_id_namespace == CFDE.tables['biosample'].id_namespace
@@ -214,7 +214,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_files_associated_with_subject = CFDE.tables['subject'] \
     .link(CFDE.tables['file_describes_subject'], on=((
       CFDE.tables['file_describes_subject'].subject_id_namespace == CFDE.tables['subject'].id_namespace
@@ -242,7 +242,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_files_associated_with_subject_role = CFDE.tables['subject_role_taxonomy'] \
     .link(CFDE.tables['subject'], on=((
       CFDE.tables['subject'].id_namespace == CFDE.tables['subject_role_taxonomy'].subject_id_namespace
@@ -275,7 +275,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_ncbi_taxon = CFDE.tables['ncbi_taxonomy'] \
     .link(CFDE.tables['subject_role_taxonomy'], on=(
       CFDE.tables['subject_role_taxonomy'].taxonomy_id == CFDE.tables['ncbi_taxonomy'].id
@@ -311,7 +311,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_subject = CFDE.tables['subject'] \
     .link(CFDE.tables['biosample_from_subject'], on=((
       CFDE.tables['biosample_from_subject'].subject_id_namespace == CFDE.tables['subject'].id_namespace
@@ -339,7 +339,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_file = CFDE.tables['file'] \
     .link(CFDE.tables['file_describes_biosample'], on=((
       CFDE.tables['file_describes_biosample'].file_id_namespace == CFDE.tables['file'].id_namespace
@@ -367,7 +367,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_anatomy = CFDE.tables['anatomy'] \
     .link(CFDE.tables['biosample'], on=(
       CFDE.tables['biosample'].anatomy == CFDE.tables['anatomy'].id
@@ -388,7 +388,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_assay = CFDE.tables['file'].filter(CFDE.tables['file'].assay_type != None)   .link(CFDE.tables['file_describes_biosample'], on=((
       CFDE.tables['file_describes_biosample'].file_id_namespace == CFDE.tables['file'].id_namespace
     ) & (
@@ -415,7 +415,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_subjects_associated_with_taxonomy = CFDE.tables['ncbi_taxonomy'] \
     .link(CFDE.tables['subject_role_taxonomy'], on=(
       CFDE.tables['subject_role_taxonomy'].taxonomy_id == CFDE.tables['ncbi_taxonomy'].id
@@ -441,7 +441,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_subjects_associated_with_granularity = CFDE.tables['subject'].filter(
     (CFDE.tables['subject'].granularity != None) & (CFDE.tables['subject'].granularity != '')
   ).count()
@@ -459,7 +459,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_subjects_associated_with_role_taxonomy = CFDE.tables['subject_role_taxonomy'] \
     .link(CFDE.tables['subject'], on=((
       CFDE.tables['subject'].id_namespace == CFDE.tables['subject_role_taxonomy'].subject_id_namespace
@@ -482,7 +482,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_subjects_associated_with_biosample = CFDE.tables['biosample'] \
     .link(CFDE.tables['biosample_from_subject'], on=((
       CFDE.tables['biosample_from_subject'].biosample_id_namespace == CFDE.tables['biosample'].id_namespace
@@ -510,7 +510,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_subjects_associated_with_file = CFDE.tables['file'] \
     .link(CFDE.tables['file_describes_subject'], on=((
       CFDE.tables['file_describes_subject'].file_id_namespace == CFDE.tables['file'].id_namespace
@@ -538,7 +538,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_files_not_in_collection = CFDE.tables['collection'] \
     .link(CFDE.tables['file_in_collection'], on=((
       CFDE.tables['file_in_collection'].collection_id_namespace == CFDE.tables['collection'].id_namespace
@@ -566,7 +566,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_subjects_not_in_collection = CFDE.tables['collection'] \
     .link(CFDE.tables['subject_in_collection'], on=((
       CFDE.tables['subject_in_collection'].collection_id_namespace == CFDE.tables['collection'].id_namespace
@@ -594,7 +594,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   total_biosamples_not_in_collection = CFDE.tables['collection'] \
     .link(CFDE.tables['biosample_in_collection'], on=((
       CFDE.tables['biosample_in_collection'].collection_id_namespace == CFDE.tables['collection'].id_namespace
@@ -622,7 +622,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   # NOTE: does not include recursive projects
   total_projects_associated_with_anatomy = CFDE.tables['anatomy'] \
     .link(CFDE.tables['biosample'], on=(
@@ -649,7 +649,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   # NOTE: does not include recursive projects
   total_projects_associated_with_file = CFDE.tables['file'] \
     .link(CFDE.tables['project'], on=((
@@ -673,7 +673,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   # NOTE: does not include recursive projects
   total_projects_associated_with_data_type = CFDE.tables['data_type'] \
     .link(CFDE.tables['file'], on=(
@@ -700,7 +700,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   # NOTE: does not include recursive projects
   total_projects_associated_with_subject = CFDE.tables['subject'] \
     .link(CFDE.tables['project'], on=((
@@ -724,7 +724,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   # TODO: we can probably use an outer join for this..
   used_anatomy_terms = CFDE.tables['biosample'] \
       .link(CFDE.tables['anatomy'], on=(
@@ -756,7 +756,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   # TODO: we can probably use an outer join for this..
   used_taxonomy_terms = CFDE.tables['subject'] \
       .link(CFDE.tables['subject_role_taxonomy'], on=((
@@ -793,7 +793,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   used_assay_type_terms = CFDE.tables['file'] \
       .link(CFDE.tables['assay_type'], on=(
           CFDE.tables['assay_type'].id == CFDE.tables['file'].assay_type
@@ -824,7 +824,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   used_file_format_terms = CFDE.tables['file'] \
       .link(CFDE.tables['file_format'], on=(
           CFDE.tables['file_format'].id == CFDE.tables['file'].file_format
@@ -855,7 +855,7 @@ def _(CFDE):
   'detail': '',
   'principle': '',
 })
-def _(CFDE):
+def _(CFDE, full=False, **kwargs):
   used_data_type_terms = CFDE.tables['file'] \
       .link(CFDE.tables['data_type'], on=(
           CFDE.tables['data_type'].id == CFDE.tables['file'].data_type
@@ -887,7 +887,7 @@ def _(CFDE):
   'principle': 'Findable',
   'extended': True,
 })
-def _(CFDE, **kwargs):
+def _(CFDE, full=False, **kwargs):
   import requests
   results = {}
   for file in CFDE.tables['file'].entities():
