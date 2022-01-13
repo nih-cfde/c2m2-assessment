@@ -921,3 +921,390 @@ def _(CFDE, full=False, **kwargs):
       results.tail(5),
     ]).to_dict(),
   }
+
+#%%
+@rubric.metric({
+  '@id': 136,
+  'name': 'Program name',
+  'description': 'Program name is available for querying',
+  'detail': ''' Checks the primary_dcc_contact table for the dcc_name ''',
+  'principle': 'Findable',
+  'extended': True,
+})
+def _(CFDE, **kwargs):
+  try:
+    primary_dcc_contact = one(CFDE.tables['primary_dcc_contact'].entities())
+    return {
+      'value': 1.0,
+      'comment': f"Program name identified: {primary_dcc_contact['dcc_name']}"
+    }
+  except Exception as e:
+    return {
+      'value': 0.0,
+      'comment': f"Program name could not be identified, error: {e}"
+    }
+
+@rubric.metric({
+  '@id': 137,
+  'name': 'Project name',
+  'description': 'Project name is available for querying',
+  'detail': ''' Checks the primary_dcc_contact table for the project, and then the project table for its name ''',
+  'principle': 'Findable',
+  'extended': True,
+})
+def _(CFDE, **kwargs):
+  try:
+    primary_dcc_contact = one(CFDE.tables['primary_dcc_contact'].entities())
+    project = one(CFDE.tables['project'].filter(
+      (CFDE.tables['project'].id_namespace == primary_dcc_contact['project_id_namespace'])
+      & (CFDE.tables['project'].local_id == primary_dcc_contact['project_local_id'])
+    ).entities())
+    return {
+      'value': 1.0,
+      'comment': f"Project name identified: {project['name']}"
+    }
+  except Exception as e:
+    return {
+      'value': 0.0,
+      'comment': f"Project name could not be identified, error: {e}"
+    }
+
+#%%
+@rubric.metric({
+  '@id': 27,
+  'name': 'PI Contact',
+  'description': 'PI Contact is available for dataset',
+  'detail': ''' Checks the primary_dcc_contact table for the contact_name and contact_email entries ''',
+  'principle': 'Reusable',
+  'extended': True,
+})
+def _(CFDE, **kwargs):
+  try:
+    primary_dcc_contact = one(CFDE.tables['primary_dcc_contact'].entities())
+    if not primary_dcc_contact.get('contact_email'):
+      raise Exception('Contact email is not present')
+    return {
+      'value': 1.0,
+      'comment': f"PI Contact identified: {primary_dcc_contact.get('contact_name', '')} <{primary_dcc_contact['contact_email']}>"
+    }
+  except Exception as e:
+    return {
+      'value': 0.0,
+      'comment': f"PI Contact could not be identified, error: {e}"
+    }
+
+#%%
+@rubric.metric({
+  '@id': 138,
+  'name': 'Responsible institution',
+  'description': 'The institution that created this dataset is available',
+  'detail': ''' No information about the contributing institution is currently available in the C2M2 ''',
+  'principle': 'Findable',
+  'extended': True,
+})
+def _(CFDE, **kwargs):
+  return {
+    'value': 0,
+    'comment': 'No information about the contributing institution is currently available in the C2M2'
+  }
+
+#%%
+@rubric.metric({
+  '@id': 110,
+  'name': 'Access protocol',
+  'description': 'The protocol for accessing the data is available and described with a URI',
+  'detail': ''' The C2M2 does not provide a means of capturing information about file access ''',
+  'principle': 'Accessible',
+  'extended': True,
+})
+def _(CFDE, **kwargs):
+  return {
+    'value': 0,
+    'comment': 'The C2M2 does not provide a means of capturing information about file access'
+  }
+
+
+#%%
+OBI = memo(lambda: OBOOntology.parse(fetch_cache('https://raw.githubusercontent.com/obi-ontology/obi/master/views/obi.obo', 'OBI.obo')))
+
+@rubric.metric({
+  '@id': 139,
+  'name': 'Assay',
+  'description': 'Assay is present and a proper CFDE-specified ontological term is found in the CFDE-specified ontologies.',
+  'detail': ''' Identifies the proportion of files with OBI-verifiable identifiers ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'file' in CFDE.tables:
+    for file in CFDE.tables['file'].entities():
+      file_id = (file['id_namespace'], file['local_id'])
+      assay_type = file.get('assay_type')
+      if not assay_type:
+        issues[file_id] = f'Missing assay_type'
+      elif OBI().get(assay_type) is None:
+        issues[file_id] = f'Not found in OBI: {assay_type}'
+      else:
+        n_good += 1
+  n_issues = len(issues)
+  issues = pd.Series(issues)
+  value = n_good / (n_good + n_issues)
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_good + n_issues}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
+
+#%%
+UBERON = memo(lambda: OBOOntology.parse(fetch_cache('http://purl.obolibrary.org/obo/uberon.obo', 'uberon.obo')))
+
+@_register_metric({
+  '@id': 140,
+  'name': 'Anatomical Part',
+  'description': 'An anatomical part is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
+  'detail': ''' Identifies the proportion of biosamples with UBERON-verifiable identifiers ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'biosample' in CFDE.tables:
+    for biosample in CFDE.tables['biosample'].entities():
+      biosample_id = (biosample['id_namespace'], biosample['local_id'])
+      anatomy = biosample.get('anatomy')
+      if not anatomy:
+        issues[biosample_id] = f'Missing anatomy'
+      elif UBERON().get(anatomy) is None:
+        issues[biosample_id] = f'Not found in OBI: {anatomy}'
+      else:
+        n_good += 1
+  n_issues = len(issues)
+  issues = pd.Series(issues)
+  value = n_good / (n_good + n_issues)
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_good + n_issues}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
+
+#%%
+DOID = memo(lambda: OBOOntology.parse(fetch_cache('https://github.com/DiseaseOntology/HumanDiseaseOntology/raw/main/src/ontology/releases/doid.obo', 'doid.obo')))
+
+@_register_metric({
+  '@id': 141,
+  'name': 'Disease',
+  'description': 'A disease is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
+  'detail': ''' Identifies the proportion of subject_disease/biosample_diseases with DOID-verifiable identifiers ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'subject_disease' in CFDE.table:
+    for subject_disease in CFDE.tables['subject_disease'].entities():
+      subject_id = ('subject', subject_disease['subject_id_namespace'], subject_disease['subject_local_id'])
+      disease = subject_disease.get('disease')
+      if not disease:
+        issues[subject_id] = f'Missing disease'
+      elif DOID().get(disease) is None:
+        issues[subject_id] = f'Not found in OBI: {disease}'
+      else:
+        n_good += 1
+  if 'biosample_disease' in CFDE.tables:
+    for biosample_disease in CFDE.tables['biosample_disease'].entities():
+      biosample_id = ('biosample', biosample_disease['biosample_id_namespace'], biosample_disease['biosample_local_id'])
+      disease = biosample_disease.get('disease')
+      if not disease:
+        issues[biosample_id] = f'Missing disease'
+      elif DOID().get(disease) is None:
+        issues[biosample_id] = f'Not found in OBI: {disease}'
+      else:
+        n_good += 1
+  n_issues = len(issues)
+  issues = pd.Series(issues)
+  value = n_good / (n_good + n_issues)
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_good + n_issues}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
+
+#%%
+EDAM = memo(lambda: OBOOntology.parse(fetch_cache('http://edamontology.org/EDAM.obo', 'EDAM.obo')))
+
+@_register_metric({
+  '@id': 142,
+  'name': 'File type',
+  'description': 'A file type is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
+  'detail': ''' Identifies the proportion of files with EDAM-verifiable file_format and data_type term identifiers ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'file' in CFDE.tables:
+    for file in CFDE.tables['file'].entities():
+      file_id = (file['id_namespace'], file['local_id'])
+      file_format = file.get('file_format')
+      data_type = file.get('data_type')
+      file_issues = {}
+      if not file_format:
+        file_issues.update({
+          'file_format': f'Missing file_format'
+        })
+      elif EDAM().get(f"EDAM_{file_format}") is None:
+        file_issues.update({
+          'file_format': f'Not found in EDAM: {file_format}'
+        })
+      if not data_type:
+        file_issues.update({
+          'data_type': f'Missing data_type'
+        })
+      elif EDAM().get(f"EDAM_{data_type}") is None:
+        file_issues.update({
+          'data_type': f'Not found in EDAM: {data_type}'
+        })
+      if file_issues:
+        issues[file_id] = file_issues
+      else:
+        n_good += 1
+  n_issues = len(issues)
+  issues = pd.Series(issues)
+  value = n_good / (n_good + n_issues)
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_good + n_issues}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
+
+#%%
+NCBITaxon = memo(lambda: OBOOntology.parse(fetch_cache('http://purl.obolibrary.org/obo/ncbitaxon.obo', 'ncbitaxon.obo')))
+
+@_register_metric({
+  '@id': 143,
+  'name': 'Taxonomy',
+  'description': 'A taxonomy is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
+  'detail': ''' Identifies the proportion of subjects with NCBITaxon-verifiable Taxonomies ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'subject_role_taxonomy' in CFDE.tables:
+    for subject_role_taxonomy in CFDE.tables['subject_role_taxonomy'].entities():
+      subject_id = (subject_role_taxonomy['subject_id_namespace'], subject_role_taxonomy['subject_local_id'])
+      taxonomy_id = subject_role_taxonomy.get('taxonomy_id')
+      if not taxonomy_id:
+        issues[subject_id] = f'Missing taxonomy'
+      elif NCBITaxon().get(taxonomy_id) is None:
+        issues[subject_id] = f'Not found in ncbitaxon: {taxonomy_id}'
+      else:
+        n_good += 1
+  issues = pd.Series(issues)
+  n_subjects = CFDE.tables['subject'].count()
+  value = n_good / n_subjects
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_subjects}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
+
+#%%
+SUBJECT_GRANULARITY_CELL_LINE = 'cfde_subject_granularity:4'
+Cellosaurus = memo(lambda: CellosaurusOntology.parse(fetch_cache('ftp://ftp.expasy.org/databases/cellosaurus/cellosaurus.xml', 'cellosaurus.xml')))
+
+@_register_metric({
+  '@id': 144,
+  'name': 'Cell Line',
+  'description': 'A cell line is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
+  'detail': ''' Identifies the proportion of subjects of granularity: cell line with Cellosaurus-verifiable cell-lines ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'subject' in CFDE.tables:
+    for subject in CFDE.tables['subject'].filter(CFDE.tables['subject'].granularity == SUBJECT_GRANULARITY_CELL_LINE).entities():
+      subject_id = (subject['id_namespace'], subject['local_id'])
+      persistent_id = subject.get('persistent_id')
+      if not persistent_id:
+        issues[subject_id] = f'Missing persistent_id for cell line'
+      elif Cellosaurus().get(persistent_id) is None:
+        issues[subject_id] = f'Not found in Cellosaurus: {persistent_id}'
+      else:
+        n_good += 1
+  n_issues = len(issues)
+  issues = pd.Series(issues)
+  value = n_good / (n_good + n_issues)
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_good + n_issues}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
+
+#%%
+@_register_metric({
+  '@id': 116,
+  'name': 'Data Usage License',
+  'description': 'A Data usage license is described',
+  'detail': ''' No information about data usage licenses are described in the C2M2 ''',
+  'principle': 'Reusable',
+  'extended': True,
+})
+def _(CFDE, **kwargs):
+  return {
+    'value': 0,
+    'comment': 'No information about data usage licenses are described in the C2M2'
+  }
+
+#%%
+@_register_metric({
+  '@id': 104,
+  'name': 'Persistent identifier',
+  'description': 'Globally unique, persistent, and valid identifiers (preferrably DOIs) are present for the dataset',
+  'detail': ''' Computes a score for persistent identifier conformance for files, 1 if you have a DOI, 0.5 if you have a persistent_id of any kind, and 0.0 otherwise ''',
+  'principle': 'Findable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  conformance = {}
+  for file in CFDE.tables['file'].entities():
+    file_id = (file['id_namespace'], file['local_id'])
+    persistent_id = file.get('persistent_id')
+    if persistent_id:
+      if re.match(r'^https?://[^/]+\.doi\.org/.+$', persistent_id):
+        conformance[file_id] = 1
+      else:
+        conformance[file_id] = 0.5
+    else:
+      conformance[file_id] = 0.0
+  conformance = pd.Series(conformance)
+  score = conformance.mean()
+  return {
+    'value': conformance.mean(),
+    'comment': f"{conformance.sum()} / {conformance.shape[0]}",
+    'supplement': conformance.to_dict() if full else conformance.value_counts().to_dict(),
+  }
+
+#%%
+@_register_metric({
+  '@id': 108,
+  'name': 'Resource identifier',
+  'description': 'An identifier for the resource is present',
+  'detail': ''' C2M2 requires files to declare a unique resource identifier ''',
+  'principle': 'Findable',
+  'extended': True,
+})
+def _(CFDE, **kwargs):
+  return {
+    'value': 1.0,
+    'comment': 'C2M2 requires files to declare a unique resource identifier'
+  }
+
