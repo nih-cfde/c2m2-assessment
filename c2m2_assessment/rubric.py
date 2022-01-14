@@ -4,7 +4,6 @@ import click
 import pandas as pd
 from c2m2_assessment.util.memo import memo
 from c2m2_assessment.util.fetch_cache import fetch_cache
-from c2m2_assessment.util.ontology_parsing import OBOOntology, CellosaurusOntology
 from c2m2_assessment.util.rubric import Rubric
 
 #%%
@@ -1027,7 +1026,8 @@ def _(CFDE, **kwargs):
 
 
 #%%
-OBI = memo(lambda: OBOOntology.parse(fetch_cache('https://raw.githubusercontent.com/obi-ontology/obi/master/views/obi.obo', 'OBI.obo')))
+from c2m2_assessment.ontology.parser.obo import OBOOntology
+OBI = memo(lambda: OBOOntology(fetch_cache('https://raw.githubusercontent.com/obi-ontology/obi/master/views/obi.obo', 'OBI.obo')))
 
 @rubric.metric({
   '@id': 139,
@@ -1060,7 +1060,8 @@ def _(CFDE, full=False, **kwargs):
   }
 
 #%%
-UBERON = memo(lambda: OBOOntology.parse(fetch_cache('http://purl.obolibrary.org/obo/uberon.obo', 'uberon.obo')))
+from c2m2_assessment.ontology.parser.obo import OBOOntology
+UBERON = memo(lambda: OBOOntology(fetch_cache('http://purl.obolibrary.org/obo/uberon.obo', 'uberon.obo')))
 
 @rubric.metric({
   '@id': 140,
@@ -1093,7 +1094,8 @@ def _(CFDE, full=False, **kwargs):
   }
 
 #%%
-DOID = memo(lambda: OBOOntology.parse(fetch_cache('https://github.com/DiseaseOntology/HumanDiseaseOntology/raw/main/src/ontology/releases/doid.obo', 'doid.obo')))
+from c2m2_assessment.ontology.parser.obo import OBOOntology
+DOID = memo(lambda: OBOOntology(fetch_cache('https://github.com/DiseaseOntology/HumanDiseaseOntology/raw/main/src/ontology/releases/doid.obo', 'doid.obo')))
 
 @rubric.metric({
   '@id': 141,
@@ -1136,7 +1138,8 @@ def _(CFDE, full=False, **kwargs):
   }
 
 #%%
-EDAM = memo(lambda: OBOOntology.parse(fetch_cache('http://edamontology.org/EDAM.obo', 'EDAM.obo')))
+from c2m2_assessment.ontology.parser.obo import OBOOntology
+EDAM = memo(lambda: OBOOntology(fetch_cache('http://edamontology.org/EDAM.obo', 'EDAM.obo')))
 
 @rubric.metric({
   '@id': 142,
@@ -1185,7 +1188,8 @@ def _(CFDE, full=False, **kwargs):
   }
 
 #%%
-NCBITaxon = memo(lambda: OBOOntology.parse(fetch_cache('http://purl.obolibrary.org/obo/ncbitaxon.obo', 'ncbitaxon.obo')))
+from c2m2_assessment.ontology.parser.obo import OBOOntology
+NCBITaxon = memo(lambda: OBOOntology(fetch_cache('http://purl.obolibrary.org/obo/ncbitaxon.obo', 'ncbitaxon.obo')))
 
 @rubric.metric({
   '@id': 143,
@@ -1218,8 +1222,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 #%%
+from c2m2_assessment.ontology.parser.cellosaurus import CellosaurusOntology
 SUBJECT_GRANULARITY_CELL_LINE = 'cfde_subject_granularity:4'
-Cellosaurus = memo(lambda: CellosaurusOntology.parse(fetch_cache('ftp://ftp.expasy.org/databases/cellosaurus/cellosaurus.xml', 'cellosaurus.xml')))
+Cellosaurus = memo(lambda: CellosaurusOntology(fetch_cache('ftp://ftp.expasy.org/databases/cellosaurus/cellosaurus.xml', 'cellosaurus.xml')))
 
 @rubric.metric({
   '@id': 144,
