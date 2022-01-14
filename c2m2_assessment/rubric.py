@@ -1392,3 +1392,37 @@ def _(CFDE, full=False, **kwargs):
     'comment': f"{n_good} / {n_good + n_issues}",
     'supplement': issues if full else issues.value_counts().to_dict(),
   }
+
+#%%
+from c2m2_assessment.ontology.client.ensembl import EnsemblClient
+Ensembl = memo(lambda: EnsemblClient())
+
+@rubric.metric({
+  '@id': -32,
+  'name': 'Gene',
+  'description': 'A gene is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
+  'detail': ''' Identifies the proportion of genes with Ensembl-verifiable gene identifiers ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'biosample_gene' in CFDE.tables:
+    for biosample_gene in CFDE.tables['biosample_gene'].entities():
+      biosample_gene_id = (biosample_gene['biosample_id_namespace'], biosample_gene['biosample_local_id'], biosample_gene['gene'])
+      gene = biosample_gene.get('gene')
+      if not gene:
+        issues[biosample_gene_id] = f'Missing gene for biosample_gene'
+      elif Ensembl().get(gene) is None:
+        issues[biosample_gene_id] = f'Not found in Ensembl: {gene}'
+      else:
+        n_good += 1
+  n_issues = len(issues)
+  issues = pd.Series(issues)
+  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_good + n_issues}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
