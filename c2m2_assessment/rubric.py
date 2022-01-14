@@ -1188,8 +1188,8 @@ def _(CFDE, full=False, **kwargs):
   }
 
 #%%
-from c2m2_assessment.ontology.parser.obo import OBOOntology
-NCBITaxon = memo(lambda: OBOOntology(fetch_cache('http://purl.obolibrary.org/obo/ncbitaxon.obo', 'ncbitaxon.obo')))
+from c2m2_assessment.ontology.client.ncbi_taxon import NCBITaxonClient
+NCBITaxon = memo(lambda: NCBITaxonClient())
 
 @rubric.metric({
   '@id': 143,
