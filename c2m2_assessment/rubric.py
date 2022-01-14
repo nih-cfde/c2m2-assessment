@@ -1315,3 +1315,80 @@ def _(CFDE, **kwargs):
     'comment': 'C2M2 requires files to declare a unique resource identifier'
   }
 
+#%%
+from c2m2_assessment.ontology.client.pubchem import PubChemSubstanceSIDClient
+PubChemSubstances = memo(lambda: PubChemSubstanceSIDClient())
+
+@rubric.metric({
+  '@id': -30,
+  'name': 'Substance',
+  'description': 'A substance is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
+  'detail': ''' Identifies the proportion of substances with PubChem-verifiable substance identifiers ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'biosample_substance' in CFDE.tables:
+    for biosample_substance in CFDE.tables['biosample_substance'].entities():
+      biosample_substance_id = (biosample_substance['biosample_id_namespace'], biosample_substance['biosample_local_id'], biosample_substance['substance'])
+      substance = biosample_substance.get('substance')
+      if not substance:
+        issues[biosample_substance_id] = f'Missing substance for biosample_substance'
+      elif PubChemSubstances().get(substance) is None:
+        issues[biosample_substance_id] = f'Not found in PubChem Substances: {substance}'
+      else:
+        n_good += 1
+  if 'subject_substance' in CFDE.tables:
+    for subject_substance in CFDE.tables['subject_substance'].entities():
+      subject_substance_id = (subject_substance['subject_id_namespace'], subject_substance['subject_local_id'], subject_substance['substance'])
+      substance = subject_substance.get('substance')
+      if not substance:
+        issues[subject_substance_id] = f'Missing substance for subject_substance'
+      elif PubChemSubstances().get(substance) is None:
+        issues[subject_substance_id] = f'Not found in PubChem Substances: {substance}'
+      else:
+        n_good += 1
+  n_issues = len(issues)
+  issues = pd.Series(issues)
+  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_good + n_issues}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
+
+#%%
+from c2m2_assessment.ontology.client.pubchem import PubChemCompoundCIDClient
+PubChemCompounds = memo(lambda: PubChemCompoundCIDClient())
+
+@rubric.metric({
+  '@id': -31,
+  'name': 'Compound',
+  'description': 'A compound is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
+  'detail': ''' Identifies the proportion of substances with PubChem-verifiable compound identifiers ''',
+  'principle': 'Interoperable',
+  'extended': True,
+})
+def _(CFDE, full=False, **kwargs):
+  n_good = 0
+  issues = {}
+  if 'substance' in CFDE.tables:
+    for substance in CFDE.tables['substance'].entities():
+      substance_id = substance['id']
+      compound = substance.get('compound')
+      if not compound:
+        issues[substance_id] = f'Missing compound for substance'
+      elif PubChemCompounds().get(compound) is None:
+        issues[substance_id] = f'Not found in PubChem Compounds: {compound}'
+      else:
+        n_good += 1
+  n_issues = len(issues)
+  issues = pd.Series(issues)
+  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  return {
+    'value': value,
+    'comment': f"{n_good} / {n_good + n_issues}",
+    'supplement': issues if full else issues.value_counts().to_dict(),
+  }
