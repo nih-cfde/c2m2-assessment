@@ -2,10 +2,13 @@
 import re
 import click
 import pandas as pd
+import logging
 from c2m2_assessment.util.one import one
 from c2m2_assessment.util.memo import memo
 from c2m2_assessment.util.fetch_cache import fetch_cache
 from c2m2_assessment.util.rubric import Rubric
+
+logger = logging.getLogger(__name__)
 
 #%%
 rubric = Rubric()
@@ -929,13 +932,20 @@ def _(CFDE, full=False, **kwargs):
   '@id': 136,
   'name': 'Program name',
   'description': 'Program name is available for querying',
-  'detail': ''' Checks the primary_dcc_contact table for the dcc_name ''',
+  'detail': ''' Checks the dcc table for the dcc_name ''',
   'principle': 'Findable',
   'extended': True,
 })
 def _(CFDE, **kwargs):
   try:
-    primary_dcc_contact = one(CFDE.tables['primary_dcc_contact'].entities())
+    if 'dcc' in CFDE.tables:
+      dcc = CFDE.tables['dcc']
+    elif 'primary_dcc_contact' in CFDE.tables:
+      logger.warning('Detected legacy table primary_dcc_contact, please move to dcc')
+      dcc = CFDE.tables['primary_dcc_contact']
+    else:
+      raise Exception('dcc table not found')
+    primary_dcc_contact = one(dcc.entities())
     return {
       'value': 1.0,
       'comment': f"Program name identified: {primary_dcc_contact['dcc_name']}"
@@ -950,20 +960,23 @@ def _(CFDE, **kwargs):
   '@id': 137,
   'name': 'Project name',
   'description': 'Project name is available for querying',
-  'detail': ''' Checks the primary_dcc_contact table for the project, and then the project table for its name ''',
+  'detail': ''' Checks the dcc table for the project, and then the project table for its name ''',
   'principle': 'Findable',
   'extended': True,
 })
 def _(CFDE, **kwargs):
   try:
-    primary_dcc_contact = one(CFDE.tables['primary_dcc_contact'].entities())
-    project = one(CFDE.tables['project'].filter(
-      (CFDE.tables['project'].id_namespace == primary_dcc_contact['project_id_namespace'])
-      & (CFDE.tables['project'].local_id == primary_dcc_contact['project_local_id'])
-    ).entities())
+    if 'dcc' in CFDE.tables:
+      dcc = CFDE.tables['dcc']
+    elif 'primary_dcc_contact' in CFDE.tables:
+      logger.warning('Detected legacy table primary_dcc_contact, please move to dcc')
+      dcc = CFDE.tables['primary_dcc_contact']
+    else:
+      raise Exception('dcc table not found')
+    primary_dcc_contact = one(dcc.entities())
     return {
       'value': 1.0,
-      'comment': f"Project name identified: {project['name']}"
+      'comment': f"Project name identified: {primary_dcc_contact['dcc_name']}"
     }
   except Exception as e:
     return {
@@ -982,7 +995,14 @@ def _(CFDE, **kwargs):
 })
 def _(CFDE, **kwargs):
   try:
-    primary_dcc_contact = one(CFDE.tables['primary_dcc_contact'].entities())
+    if 'dcc' in CFDE.tables:
+      dcc = CFDE.tables['dcc']
+    elif 'primary_dcc_contact' in CFDE.tables:
+      logger.warning('Detected legacy table primary_dcc_contact, please move to dcc')
+      dcc = CFDE.tables['primary_dcc_contact']
+    else:
+      raise Exception('dcc table not found')
+    primary_dcc_contact = one(dcc.entities())
     if not primary_dcc_contact.get('contact_email'):
       raise Exception('Contact email is not present')
     return {
