@@ -2,6 +2,7 @@
 import re
 import click
 import pandas as pd
+from c2m2_assessment.util.one import one
 from c2m2_assessment.util.memo import memo
 from c2m2_assessment.util.fetch_cache import fetch_cache
 from c2m2_assessment.util.rubric import Rubric
@@ -1052,11 +1053,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues)
+  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
@@ -1086,11 +1087,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues)
+  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
@@ -1108,7 +1109,7 @@ DOID = memo(lambda: OBOOntology(fetch_cache('https://github.com/DiseaseOntology/
 def _(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
-  if 'subject_disease' in CFDE.table:
+  if 'subject_disease' in CFDE.tables:
     for subject_disease in CFDE.tables['subject_disease'].entities():
       subject_id = ('subject', subject_disease['subject_id_namespace'], subject_disease['subject_local_id'])
       disease = subject_disease.get('disease')
@@ -1130,11 +1131,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues)
+  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
@@ -1179,12 +1180,12 @@ def _(CFDE, full=False, **kwargs):
       else:
         n_good += 1
   n_issues = len(issues)
-  issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues)
+  issues = pd.DataFrame(issues)
+  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(), # "unhashable type: 'dict' i think it must be part of the to_dict method?
   }
 
 #%%
@@ -1214,11 +1215,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   issues = pd.Series(issues)
   n_subjects = CFDE.tables['subject'].count()
-  value = n_good / n_subjects
+  value = n_good / n_subjects if n_subjects else float('nan')
   return {
     'value': value,
     'comment': f"{n_good} / {n_subjects}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
@@ -1249,11 +1250,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues)
+  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
@@ -1269,35 +1270,6 @@ def _(CFDE, **kwargs):
   return {
     'value': 0,
     'comment': 'No information about data usage licenses are described in the C2M2'
-  }
-
-#%%
-@rubric.metric({
-  '@id': 104,
-  'name': 'Persistent identifier',
-  'description': 'Globally unique, persistent, and valid identifiers (preferrably DOIs) are present for the dataset',
-  'detail': ''' Computes a score for persistent identifier conformance for files, 1 if you have a DOI, 0.5 if you have a persistent_id of any kind, and 0.0 otherwise ''',
-  'principle': 'Findable',
-  'extended': True,
-})
-def _(CFDE, full=False, **kwargs):
-  conformance = {}
-  for file in CFDE.tables['file'].entities():
-    file_id = (file['id_namespace'], file['local_id'])
-    persistent_id = file.get('persistent_id')
-    if persistent_id:
-      if re.match(r'^https?://[^/]+\.doi\.org/.+$', persistent_id):
-        conformance[file_id] = 1
-      else:
-        conformance[file_id] = 0.5
-    else:
-      conformance[file_id] = 0.0
-  conformance = pd.Series(conformance)
-  score = conformance.mean()
-  return {
-    'value': conformance.mean(),
-    'comment': f"{conformance.sum()} / {conformance.shape[0]}",
-    'supplement': conformance.to_dict() if full else conformance.value_counts().to_dict(),
   }
 
 #%%
@@ -1356,7 +1328,7 @@ def _(CFDE, full=False, **kwargs):
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
@@ -1390,7 +1362,7 @@ def _(CFDE, full=False, **kwargs):
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
@@ -1424,5 +1396,5 @@ def _(CFDE, full=False, **kwargs):
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues if full else issues.value_counts().to_dict(),
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
