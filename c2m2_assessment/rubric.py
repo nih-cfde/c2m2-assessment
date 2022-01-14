@@ -3,6 +3,8 @@ import re
 import click
 import pandas as pd
 from c2m2_assessment.util.memo import memo
+from c2m2_assessment.util.fetch_cache import fetch_cache
+from c2m2_assessment.util.ontology_parsing import OBOOntology, CellosaurusOntology
 from c2m2_assessment.util.rubric import Rubric
 
 #%%
@@ -1060,7 +1062,7 @@ def _(CFDE, full=False, **kwargs):
 #%%
 UBERON = memo(lambda: OBOOntology.parse(fetch_cache('http://purl.obolibrary.org/obo/uberon.obo', 'uberon.obo')))
 
-@_register_metric({
+@rubric.metric({
   '@id': 140,
   'name': 'Anatomical Part',
   'description': 'An anatomical part is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
@@ -1093,7 +1095,7 @@ def _(CFDE, full=False, **kwargs):
 #%%
 DOID = memo(lambda: OBOOntology.parse(fetch_cache('https://github.com/DiseaseOntology/HumanDiseaseOntology/raw/main/src/ontology/releases/doid.obo', 'doid.obo')))
 
-@_register_metric({
+@rubric.metric({
   '@id': 141,
   'name': 'Disease',
   'description': 'A disease is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
@@ -1136,7 +1138,7 @@ def _(CFDE, full=False, **kwargs):
 #%%
 EDAM = memo(lambda: OBOOntology.parse(fetch_cache('http://edamontology.org/EDAM.obo', 'EDAM.obo')))
 
-@_register_metric({
+@rubric.metric({
   '@id': 142,
   'name': 'File type',
   'description': 'A file type is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
@@ -1185,7 +1187,7 @@ def _(CFDE, full=False, **kwargs):
 #%%
 NCBITaxon = memo(lambda: OBOOntology.parse(fetch_cache('http://purl.obolibrary.org/obo/ncbitaxon.obo', 'ncbitaxon.obo')))
 
-@_register_metric({
+@rubric.metric({
   '@id': 143,
   'name': 'Taxonomy',
   'description': 'A taxonomy is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
@@ -1219,7 +1221,7 @@ def _(CFDE, full=False, **kwargs):
 SUBJECT_GRANULARITY_CELL_LINE = 'cfde_subject_granularity:4'
 Cellosaurus = memo(lambda: CellosaurusOntology.parse(fetch_cache('ftp://ftp.expasy.org/databases/cellosaurus/cellosaurus.xml', 'cellosaurus.xml')))
 
-@_register_metric({
+@rubric.metric({
   '@id': 144,
   'name': 'Cell Line',
   'description': 'A cell line is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
@@ -1250,7 +1252,7 @@ def _(CFDE, full=False, **kwargs):
   }
 
 #%%
-@_register_metric({
+@rubric.metric({
   '@id': 116,
   'name': 'Data Usage License',
   'description': 'A Data usage license is described',
@@ -1265,7 +1267,7 @@ def _(CFDE, **kwargs):
   }
 
 #%%
-@_register_metric({
+@rubric.metric({
   '@id': 104,
   'name': 'Persistent identifier',
   'description': 'Globally unique, persistent, and valid identifiers (preferrably DOIs) are present for the dataset',
@@ -1294,7 +1296,7 @@ def _(CFDE, full=False, **kwargs):
   }
 
 #%%
-@_register_metric({
+@rubric.metric({
   '@id': 108,
   'name': 'Resource identifier',
   'description': 'An identifier for the resource is present',
