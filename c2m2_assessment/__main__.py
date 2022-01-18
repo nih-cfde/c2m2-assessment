@@ -32,8 +32,9 @@ def assess(CFDE, extended=False, **kwargs):
 @click.option('-w', '--work', type=click.Path(), help='Working directory')
 @click.option('-e', '--extended', is_flag=True, default=False, help='Perform an extended assessment including more metrics')
 @click.option('-f', '--full', is_flag=True, default=False, help='Save full supplemental tables for detailed inspection')
+@click.option('-p', '--progress', is_flag=True, default=False, help='Show progress bars on entity iterables')
 @click.option('-v', '--verbose', count=True, help='Increase logging level')
-def cli(input=None, output=None, work=None, extended=False, full=False, verbose=0):
+def cli(input=None, output=None, work=None, extended=False, full=False, progress=False, verbose=0):
   ''' Command line interface to assessment, auto-extract zip files, instantiate CFDE client & perform assessment
   '''
   from c2m2_assessment.util.one import one
@@ -55,7 +56,7 @@ def cli(input=None, output=None, work=None, extended=False, full=False, verbose=
       )
     assert input.suffix == '.json', f'Invalid input, expected .json or .zip, got {input.suffix}'
     from deriva_datapackage import create_offline_client
-    CFDE = create_offline_client(str(input), cachedir=str(work))
+    CFDE = create_offline_client(str(input), cachedir=str(work), progress_bar=progress)
     assess(CFDE, extended=extended, full=full).to_json(output, orient='records')
 
 if __name__ == '__main__':
