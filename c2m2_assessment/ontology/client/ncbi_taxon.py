@@ -10,7 +10,8 @@ class NCBITaxonClient(Service):
   def _lookup(self, id):
     T = xml.etree.ElementTree.parse(
       urllib.request.urlopen(
-        f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=taxonomy&id={urllib.parse.quote(id)}"
+        f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=taxonomy&id={urllib.parse.quote(id)}",
+        timeout=2,
       )
     )
     t = T.find('Taxon')

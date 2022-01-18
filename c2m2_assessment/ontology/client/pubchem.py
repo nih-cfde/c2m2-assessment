@@ -9,7 +9,8 @@ class PubChemCompoundCIDClient(Service):
 
   def _lookup(self, cid):
     T = json.load(urllib.request.urlopen(
-      f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{urllib.parse.quote(cid)}/dates/json"
+      f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{urllib.parse.quote(cid)}/dates/json",
+      timeout=2,
     ))
     if 'Fault' in T:
       raise Exception(T['Fault']['Message'])
@@ -22,7 +23,8 @@ class PubChemSubstanceSIDClient(Service):
 
   def _lookup(self, sid):
     T = json.load(urllib.request.urlopen(
-      f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/substance/sid/{urllib.parse.quote(sid)}/dates/json"
+      f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/substance/sid/{urllib.parse.quote(sid)}/dates/json",
+      timeout=2,
     ))
     if 'Fault' in T:
       raise Exception(T['Fault']['Message'])
