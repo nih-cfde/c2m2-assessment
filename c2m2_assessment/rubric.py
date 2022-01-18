@@ -70,12 +70,12 @@ def _(CFDE, full=False, **kwargs):
   '@id': 104,
   'name': 'Persistent identifier',
   'description': 'Globally unique, persistent, and valid identifiers (preferrably DOIs) are present for the dataset',
-  'detail': '''We check that the persistent id that are present are DOIs.''',
+  'detail': '''We check that the persistent id that are present''',
   'principle': 'Findable',
 })
 def _(CFDE, full=False, **kwargs):
   qualified_persistent_ids = pd.Series({
-    (file['id_namespace'], file['local_id'], file.get('persistent_id')): 1 if file.get('persistent_id') and re.match(r'^https?://[^/]+\.doi\.org/.+$', file['persistent_id']) else 0
+    (file['id_namespace'], file['local_id'], file.get('persistent_id')): 1 if file.get('persistent_id') else 0
     for file in CFDE.tables['file'].entities()
   }).sort_values()
   total_qualified_persistent_ids = qualified_persistent_ids.sum()
@@ -1068,6 +1068,7 @@ def _(CFDE, full=False, **kwargs):
       if not assay_type:
         issues[file_id] = f'Missing assay_type'
       elif OBI().get(assay_type) is None:
+        n_good += 0.5
         issues[file_id] = f'Not found in OBI: {assay_type}'
       else:
         n_good += 1
@@ -1102,6 +1103,7 @@ def _(CFDE, full=False, **kwargs):
       if not anatomy:
         issues[biosample_id] = f'Missing anatomy'
       elif UBERON().get(anatomy) is None:
+        n_good += 0.5
         issues[biosample_id] = f'Not found in OBI: {anatomy}'
       else:
         n_good += 1
@@ -1136,6 +1138,7 @@ def _(CFDE, full=False, **kwargs):
       if not disease:
         issues[subject_id] = f'Missing disease'
       elif DOID().get(disease) is None:
+        n_good += 0.5
         issues[subject_id] = f'Not found in OBI: {disease}'
       else:
         n_good += 1
@@ -1146,6 +1149,7 @@ def _(CFDE, full=False, **kwargs):
       if not disease:
         issues[biosample_id] = f'Missing disease'
       elif DOID().get(disease) is None:
+        n_good += 0.5
         issues[biosample_id] = f'Not found in OBI: {disease}'
       else:
         n_good += 1
@@ -1184,6 +1188,7 @@ def _(CFDE, full=False, **kwargs):
           'file_format': f'Missing file_format'
         })
       elif EDAM().get(f"EDAM_{file_format}") is None:
+        n_good += 0.5
         file_issues.update({
           'file_format': f'Not found in EDAM: {file_format}'
         })
@@ -1192,6 +1197,7 @@ def _(CFDE, full=False, **kwargs):
           'data_type': f'Missing data_type'
         })
       elif EDAM().get(f"EDAM_{data_type}") is None:
+        n_good += 0.5
         file_issues.update({
           'data_type': f'Not found in EDAM: {data_type}'
         })
@@ -1230,6 +1236,7 @@ def _(CFDE, full=False, **kwargs):
       if not taxonomy_id:
         issues[subject_id] = f'Missing taxonomy'
       elif NCBITaxon().get(taxonomy_id) is None:
+        n_good += 0.5
         issues[subject_id] = f'Not found in ncbitaxon: {taxonomy_id}'
       else:
         n_good += 1
@@ -1265,6 +1272,7 @@ def _(CFDE, full=False, **kwargs):
       if not persistent_id:
         issues[subject_id] = f'Missing persistent_id for cell line'
       elif Cellosaurus().get(persistent_id) is None:
+        n_good += 0.5
         issues[subject_id] = f'Not found in Cellosaurus: {persistent_id}'
       else:
         n_good += 1
@@ -1329,6 +1337,7 @@ def _(CFDE, full=False, **kwargs):
       if not substance:
         issues[biosample_substance_id] = f'Missing substance for biosample_substance'
       elif PubChemSubstances().get(substance) is None:
+        n_good += 0.5
         issues[biosample_substance_id] = f'Not found in PubChem Substances: {substance}'
       else:
         n_good += 1
@@ -1339,6 +1348,7 @@ def _(CFDE, full=False, **kwargs):
       if not substance:
         issues[subject_substance_id] = f'Missing substance for subject_substance'
       elif PubChemSubstances().get(substance) is None:
+        n_good += 0.5
         issues[subject_substance_id] = f'Not found in PubChem Substances: {substance}'
       else:
         n_good += 1
@@ -1373,6 +1383,7 @@ def _(CFDE, full=False, **kwargs):
       if not compound:
         issues[substance_id] = f'Missing compound for substance'
       elif PubChemCompounds().get(compound) is None:
+        n_good += 0.5
         issues[substance_id] = f'Not found in PubChem Compounds: {compound}'
       else:
         n_good += 1
@@ -1407,6 +1418,7 @@ def _(CFDE, full=False, **kwargs):
       if not gene:
         issues[biosample_gene_id] = f'Missing gene for biosample_gene'
       elif Ensembl().get(gene) is None:
+        n_good += 0.5
         issues[biosample_gene_id] = f'Not found in Ensembl: {gene}'
       else:
         n_good += 1
