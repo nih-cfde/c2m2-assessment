@@ -1,6 +1,7 @@
 ''' Object decorators for FAIRshake-style objects
 '''
 
+import math
 import traceback
 import logging
 logger = logging.getLogger(__name__)
@@ -17,7 +18,7 @@ class Answer:
     return dict(**self.answer, metric=self.metric.id)
   
   def __str__(self):
-    return f"{self.answer['value']*100:.2f}% ({self.answer['comment']})"
+    return f"{self.answer['value']*100:.2f}{'%' if not math.isnan(self.answer['value']) else ''} ({self.answer['comment']})"
 
 class Metric:
   ''' A metric paired with the code used to evaluate it
