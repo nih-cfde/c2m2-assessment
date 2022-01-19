@@ -2,4 +2,3 @@ click
 datapackage
 deriva-datapackage @ git+https://github.com/nih-cfde/deriva-datapackage@v1.0.2
 pandas
-pyyaml
