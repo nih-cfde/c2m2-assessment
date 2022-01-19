@@ -1215,7 +1215,7 @@ def _(CFDE, full=False, **kwargs):
   return {
     'value': value,
     'comment': f"{n_good} / {n_good + n_issues}",
-    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(), # "unhashable type: 'dict' i think it must be part of the to_dict method?
+    'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
