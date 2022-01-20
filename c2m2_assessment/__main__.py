@@ -1,17 +1,15 @@
 import click
 import logging
+import importlib
 from pathlib import Path
+from c2m2_assessment.rubrics import rubrics
 
-def assess(CFDE, extended=False, **kwargs):
+def assess(CFDE, rubric='NCE', **kwargs):
   ''' Given a CFDE client, perform the assessment and return a table of results
   '''
   import pandas as pd
-  from c2m2_assessment.rubric import rubric
-  metrics = rubric.metrics.values() if extended else [
-    metric
-    for metric in rubric.metrics.values()
-    if not metric.props.get('extended')
-  ]
+  rubric = importlib.import_module(f"c2m2_assessment.rubrics.{rubric}").rubric
+  metrics = rubric.metrics.values()
   return pd.merge(
     left=pd.DataFrame.from_records([
       answer.to_dict()
@@ -30,11 +28,11 @@ def assess(CFDE, extended=False, **kwargs):
 @click.option('-i', '--input', type=click.Path(file_okay=True, path_type=Path), required=True, help='Input datapackage')
 @click.option('-o', '--output', type=click.File(mode='w'), default='-', help='Output results')
 @click.option('-w', '--work', type=click.Path(), help='Working directory')
-@click.option('-e', '--extended', is_flag=True, default=False, help='Perform an extended assessment including more metrics')
+@click.option('-r', '--rubric', type=click.Choice(rubrics), default='NCE', show_default=True, help='Which rubric to use for the assessment')
 @click.option('-f', '--full', is_flag=True, default=False, help='Save full supplemental tables for detailed inspection')
 @click.option('-p', '--progress', is_flag=True, default=False, help='Show progress bars on entity iterables')
 @click.option('-v', '--verbose', count=True, help='Increase logging level')
-def cli(input=None, output=None, work=None, extended=False, full=False, progress=False, verbose=0):
+def cli(input=None, output=None, work=None, rubric='NCE', full=False, progress=False, verbose=0):
   ''' Command line interface to assessment, auto-extract zip files, instantiate CFDE client & perform assessment
   '''
   from c2m2_assessment.util.one import one
@@ -57,7 +55,7 @@ def cli(input=None, output=None, work=None, extended=False, full=False, progress
     assert input.suffix == '.json', f'Invalid input, expected .json or .zip, got {input.suffix}'
     from deriva_datapackage import create_offline_client
     CFDE = create_offline_client(str(input), cachedir=str(work), progress_bar=progress)
-    assess(CFDE, extended=extended, full=full).to_json(output, orient='records')
+    assess(CFDE, rubric=rubric, full=full).to_json(output, orient='records')
 
 if __name__ == '__main__':
   cli()

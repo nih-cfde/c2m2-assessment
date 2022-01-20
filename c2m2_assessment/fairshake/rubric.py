@@ -1,41 +1,11 @@
 ''' Object decorators for FAIRshake-style objects
 '''
+from c2m2_assessment.fairshake.metric import Metric
+from c2m2_assessment.fairshake.answer import Answer
 
-import math
 import traceback
 import logging
 logger = logging.getLogger(__name__)
-
-class Answer:
-  ''' An answer for a given metric evaluated against a target
-  '''
-  def __init__(self, target, metric, answer):
-    self.target = target
-    self.metric = metric
-    self.answer = answer
-  
-  def to_dict(self):
-    return dict(**self.answer, metric=self.metric.id)
-  
-  def __str__(self):
-    return f"{self.answer['value']*100:.2f}{'%' if not math.isnan(self.answer['value']) else ''} ({self.answer['comment']})"
-
-class Metric:
-  ''' A metric paired with the code used to evaluate it
-  '''
-  def __init__(self, props, func):
-    self.id = props['@id']
-    self.props = props
-    self.func = func
-
-  def to_dict(self):
-    return self.props
-
-  def __call__(self, *args, **kwargs):
-    return self.func(*args, **kwargs)
-
-  def __str__(self):
-    return self.props['name']
 
 class Rubric:
   ''' A rubric made up of a set of metrics, usage:
@@ -55,12 +25,24 @@ class Rubric:
   def metric(self, props):
     ''' A decorator for instantiating and registering a metric for this rubric
     '''
-    def decorator(func):
-      metric = Metric(props, func)
-      assert metric.id not in self.metrics, 'Duplicate metric id'
+    if isinstance(props, str):
+      import importlib
+      modpath, modimport = props.rsplit('.', maxsplit=1)
+      metric = getattr(importlib.import_module(modpath), modimport, None)
+      assert isinstance(metric, Metric)
       self.metrics[metric.id] = metric
       return metric
-    return decorator
+    elif isinstance(props, Metric):
+      metric = props
+      self.metrics[metric.id] = metric
+      return metric
+    else:
+      def decorator(func):
+        metric = Metric(props, func)
+        assert metric.id not in self.metrics, 'Duplicate metric id'
+        self.metrics[metric.id] = metric
+        return metric
+      return decorator
 
   def assess(self, targets, metrics=None, **kwargs):
     ''' Assess the given targets against the entire rubric
