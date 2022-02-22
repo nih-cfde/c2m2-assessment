@@ -155,7 +155,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
     'numerator': n_good,
@@ -190,7 +190,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
     'numerator': n_good,
@@ -236,7 +236,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
     'numerator': n_good,
@@ -288,7 +288,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.DataFrame(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
     'numerator': n_good,
@@ -323,7 +323,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   issues = pd.Series(issues)
   n_subjects = total_subjects(CFDE)
-  value = n_good / n_subjects if n_subjects else float('nan')
+  value = n_good / n_subjects if n_subjects else None
   return {
     'value': value,
     'numerator': n_good,
@@ -359,7 +359,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
     'numerator': n_good,
@@ -433,7 +433,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
     'numerator': n_good,
@@ -468,7 +468,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
     'numerator': n_good,
@@ -503,7 +503,7 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
     'numerator': n_good,

@@ -18,7 +18,7 @@ def metric(CFDE, full=False, **kwargs):
     for file in CFDE.tables['file'].entities()
   }).sort_values()
   total_qualified_persistent_ids = qualified_persistent_ids.sum()
-  value = (total_qualified_persistent_ids / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_qualified_persistent_ids / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_qualified_persistent_ids,

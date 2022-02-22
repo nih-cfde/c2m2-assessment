@@ -10,7 +10,7 @@ from c2m2_assessment.fairshake.metric import Metric
 })
 def metric(CFDE, full=False, **kwargs):
   return {
-    'value': float('nan'),
+    'value': None,
     'comment': 'Skipped',
   }
   # import requests

@@ -29,7 +29,7 @@ def _(CFDE, full=False, **kwargs):
     )) \
     .groupby(CFDE.tables['file'].id_namespace, CFDE.tables['file'].local_id) \
     .count()
-  value = (total_files_associated_with_data_type / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_files_associated_with_data_type / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_files_associated_with_data_type,
@@ -51,7 +51,7 @@ def _(CFDE, full=False, **kwargs):
     )) \
     .groupby(CFDE.tables['file'].id_namespace, CFDE.tables['file'].local_id) \
     .count()
-  value = (total_files_associated_with_file_format / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_files_associated_with_file_format / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_files_associated_with_file_format,
@@ -73,7 +73,7 @@ def _(CFDE, full=False, **kwargs):
     )) \
     .groupby(CFDE.tables['file'].id_namespace, CFDE.tables['file'].local_id) \
     .count()
-  value = (total_files_associated_with_assay_type / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_files_associated_with_assay_type / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_files_associated_with_assay_type,
@@ -105,7 +105,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['file'].id_namespace, CFDE.tables['file'].local_id) \
     .count()
-  value = (total_files_associated_with_anatomy / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_files_associated_with_anatomy / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_files_associated_with_anatomy,
@@ -134,7 +134,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['file'].id_namespace, CFDE.tables['file'].local_id) \
     .count()
-  value = (total_files_associated_with_biosample / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_files_associated_with_biosample / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_files_associated_with_biosample,
@@ -163,7 +163,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['file'].id_namespace, CFDE.tables['file'].local_id) \
     .count()
-  value = (total_files_associated_with_subject / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_files_associated_with_subject / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_files_associated_with_subject,
@@ -197,7 +197,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['file'].id_namespace, CFDE.tables['file'].local_id) \
     .count()
-  value = (total_files_associated_with_subject_role / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_files_associated_with_subject_role / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_files_associated_with_subject_role,
@@ -234,7 +234,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['biosample'].id_namespace, CFDE.tables['biosample'].local_id) \
     .count()
-  value = (total_biosamples_associated_with_ncbi_taxon / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
+  value = (total_biosamples_associated_with_ncbi_taxon / total_biosamples(CFDE)) if total_biosamples(CFDE) else None
   return {
     'value': value,
     'numerator': total_biosamples_associated_with_ncbi_taxon,
@@ -263,7 +263,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['biosample'].id_namespace, CFDE.tables['biosample'].local_id) \
     .count()
-  value = (total_biosamples_associated_with_subject / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
+  value = (total_biosamples_associated_with_subject / total_biosamples(CFDE)) if total_biosamples(CFDE) else None
   return {
     'value': value,
     'numerator': total_biosamples_associated_with_subject,
@@ -292,7 +292,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['biosample'].id_namespace, CFDE.tables['biosample'].local_id) \
     .count()
-  value = (total_biosamples_associated_with_file / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
+  value = (total_biosamples_associated_with_file / total_biosamples(CFDE)) if total_biosamples(CFDE) else None
   return {
     'value': value,
     'numerator': total_biosamples_associated_with_file,
@@ -314,7 +314,7 @@ def _(CFDE, full=False, **kwargs):
     )) \
     .groupby(CFDE.tables['biosample'].id_namespace, CFDE.tables['biosample'].local_id) \
     .count()
-  value = (total_biosamples_associated_with_anatomy / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
+  value = (total_biosamples_associated_with_anatomy / total_biosamples(CFDE)) if total_biosamples(CFDE) else None
   return {
     'value': value,
     'numerator': total_biosamples_associated_with_anatomy,
@@ -342,7 +342,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['biosample'].id_namespace, CFDE.tables['biosample'].local_id) \
     .count()
-  value = (total_biosamples_associated_with_assay / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
+  value = (total_biosamples_associated_with_assay / total_biosamples(CFDE)) if total_biosamples(CFDE) else None
   return {
     'value': value,
     'numerator': total_biosamples_associated_with_assay,
@@ -369,7 +369,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['subject'].id_namespace, CFDE.tables['subject'].local_id) \
     .count()
-  value = (total_subjects_associated_with_taxonomy / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
+  value = (total_subjects_associated_with_taxonomy / total_subjects(CFDE)) if total_subjects(CFDE) else None
   return {
     'value': value,
     'numerator': total_subjects_associated_with_taxonomy,
@@ -388,7 +388,7 @@ def _(CFDE, full=False, **kwargs):
   total_subjects_associated_with_granularity = CFDE.tables['subject'].filter(
     (CFDE.tables['subject'].granularity != None) & (CFDE.tables['subject'].granularity != '')
   ).count()
-  value = (total_subjects_associated_with_granularity / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
+  value = (total_subjects_associated_with_granularity / total_subjects(CFDE)) if total_subjects(CFDE) else None
   return {
     'value': value,
     'numerator': total_subjects_associated_with_granularity,
@@ -412,7 +412,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['subject'].id_namespace, CFDE.tables['subject'].local_id) \
     .count()
-  value = (total_subjects_associated_with_role_taxonomy / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
+  value = (total_subjects_associated_with_role_taxonomy / total_subjects(CFDE)) if total_subjects(CFDE) else None
   return {
     'value': value,
     'numerator': total_subjects_associated_with_role_taxonomy,
@@ -441,7 +441,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['subject'].id_namespace, CFDE.tables['subject'].local_id) \
     .count()
-  value = (total_subjects_associated_with_biosample / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
+  value = (total_subjects_associated_with_biosample / total_subjects(CFDE)) if total_subjects(CFDE) else None
   return {
     'value': value,
     'numerator': total_subjects_associated_with_biosample,
@@ -470,7 +470,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['subject'].id_namespace, CFDE.tables['subject'].local_id) \
     .count()
-  value = (total_subjects_associated_with_file / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
+  value = (total_subjects_associated_with_file / total_subjects(CFDE)) if total_subjects(CFDE) else None
   return {
     'value': value,
     'numerator': total_subjects_associated_with_file,
@@ -499,7 +499,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['file'].id_namespace, CFDE.tables['file'].local_id) \
     .count()
-  value = (total_files_not_in_collection / total_files(CFDE)) if total_files(CFDE) else float('nan')
+  value = (total_files_not_in_collection / total_files(CFDE)) if total_files(CFDE) else None
   return {
     'value': value,
     'numerator': total_files_not_in_collection,
@@ -528,7 +528,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['subject'].id_namespace, CFDE.tables['subject'].local_id) \
     .count()
-  value = (total_subjects_not_in_collection / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
+  value = (total_subjects_not_in_collection / total_subjects(CFDE)) if total_subjects(CFDE) else None
   return {
     'value': value,
     'numerator': total_subjects_not_in_collection,
@@ -557,7 +557,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['biosample'].id_namespace, CFDE.tables['biosample'].local_id) \
     .count()
-  value = (total_biosamples_not_in_collection / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
+  value = (total_biosamples_not_in_collection / total_biosamples(CFDE)) if total_biosamples(CFDE) else None
   return {
     'value': value,
     'numerator': total_biosamples_not_in_collection,
@@ -585,7 +585,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['project'].id_namespace, CFDE.tables['project'].local_id) \
     .count()
-  value = (total_projects_associated_with_anatomy / total_projects(CFDE)) if total_projects(CFDE) else float('nan')
+  value = (total_projects_associated_with_anatomy / total_projects(CFDE)) if total_projects(CFDE) else None
   return {
     'value': value,
     'numerator': total_projects_associated_with_anatomy,
@@ -610,7 +610,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['project'].id_namespace, CFDE.tables['project'].local_id) \
     .count()
-  value = (total_projects_associated_with_file / total_projects(CFDE)) if total_projects(CFDE) else float('nan')
+  value = (total_projects_associated_with_file / total_projects(CFDE)) if total_projects(CFDE) else None
   return {
     'value': value,
     'numerator': total_projects_associated_with_file,
@@ -638,7 +638,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['project'].id_namespace, CFDE.tables['project'].local_id) \
     .count()
-  value = (total_projects_associated_with_data_type / total_projects(CFDE)) if total_projects(CFDE) else float('nan')
+  value = (total_projects_associated_with_data_type / total_projects(CFDE)) if total_projects(CFDE) else None
   return {
     'value': value,
     'numerator': total_projects_associated_with_data_type,
@@ -663,7 +663,7 @@ def _(CFDE, full=False, **kwargs):
     ))) \
     .groupby(CFDE.tables['project'].id_namespace, CFDE.tables['project'].local_id) \
     .count()
-  value = (total_projects_associated_with_subject / total_projects(CFDE)) if total_projects(CFDE) else float('nan')
+  value = (total_projects_associated_with_subject / total_projects(CFDE)) if total_projects(CFDE) else None
   return {
     'value': value,
     'numerator': total_projects_associated_with_subject,
@@ -695,7 +695,7 @@ def _(CFDE, full=False, **kwargs):
       if anatomy['id'] not in used_anatomy_ids
   }).T
   total = len(used_anatomy_ids) + unused_anatomy_terms.shape[0]
-  value = (1 - (unused_anatomy_terms.shape[0] / total)) if total else float('nan')
+  value = (1 - (unused_anatomy_terms.shape[0] / total)) if total else None
   return {
     'value': value,
     'numerator': len(used_anatomy_ids),
@@ -733,7 +733,7 @@ def _(CFDE, full=False, **kwargs):
       if taxonomy['id'] not in used_taxonomy_ids
   }).T
   total = len(used_taxonomy_ids) + unused_taxonomy_terms.shape[0]
-  value = (1 - (unused_taxonomy_terms.shape[0] / total)) if total else float('nan')
+  value = (1 - (unused_taxonomy_terms.shape[0] / total)) if total else None
   return {
     'value': value,
     'numerator': len(used_taxonomy_ids),
@@ -765,7 +765,7 @@ def _(CFDE, full=False, **kwargs):
       if assay_type['id'] not in used_assay_type_ids
   }).T
   total = len(used_assay_type_ids) + unused_assay_type_terms.shape[0]
-  value = (1 - (unused_assay_type_terms.shape[0] / total)) if total else float('nan')
+  value = (1 - (unused_assay_type_terms.shape[0] / total)) if total else None
   return {
     'value': value,
     'numerator': len(used_assay_type_ids),
@@ -797,7 +797,7 @@ def _(CFDE, full=False, **kwargs):
       if file_format['id'] not in used_file_format_ids
   }).T
   total = len(used_file_format_ids) + unused_file_format_terms.shape[0]
-  value = (1 - (unused_file_format_terms.shape[0] / total)) if total else float('nan')
+  value = (1 - (unused_file_format_terms.shape[0] / total)) if total else None
   return {
     'value': value,
     'numerator': len(used_file_format_ids),
@@ -829,7 +829,7 @@ def _(CFDE, full=False, **kwargs):
       if data_type['id'] not in used_data_type_ids
   }).T
   total = len(used_data_type_ids) + unused_data_type_terms.shape[0]
-  value = (1 - (unused_data_type_terms.shape[0] / total)) if total else float('nan')
+  value = (1 - (unused_data_type_terms.shape[0] / total)) if total else None
   return {
     'value': value,
     'numerator': len(used_data_type_ids),
