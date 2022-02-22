@@ -1,7 +1,7 @@
 from c2m2_assessment.fairshake.metric import Metric
 
 @Metric.create({
-  '@id': 145,
+  '@id': 'fairshake:145',
   'name': 'Landing Page',
   'description': 'A landing page exists and is accessible for the identifiers',
   'detail': '''Checks to make sure the persistent_id is resolvable with a HEAD request. if it is not http/https it is assumed to be an identifiers.org-resolvable CURIE. note that this is still error prone, some identifier websites do not follow HTTP standards and may not report 404s with ids that aren't found.''',

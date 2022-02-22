@@ -16,7 +16,7 @@ rubric.metric('c2m2_assessment.metrics.m_145_landing_page.metric')
 
 #%%
 @rubric.metric({
-  '@id': 136,
+  '@id': 'fairshake:136',
   'name': 'Program name',
   'description': 'Program name is available for querying',
   'detail': ''' Checks the dcc table for the dcc_name ''',
@@ -43,7 +43,7 @@ def _(CFDE, **kwargs):
     }
 
 @rubric.metric({
-  '@id': 137,
+  '@id': 'fairshake:137',
   'name': 'Project name',
   'description': 'Project name is available for querying',
   'detail': ''' Checks the dcc table for the project, and then the project table for its name ''',
@@ -71,7 +71,7 @@ def _(CFDE, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 27,
+  '@id': 'fairshake:27',
   'name': 'PI Contact',
   'description': 'PI Contact is available for dataset',
   'detail': ''' Checks the primary_dcc_contact table for the contact_name and contact_email entries ''',
@@ -101,7 +101,7 @@ def _(CFDE, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 138,
+  '@id': 'fairshake:138',
   'name': 'Responsible institution',
   'description': 'The institution that created this dataset is available',
   'detail': ''' No information about the contributing institution is currently available in the C2M2 ''',
@@ -115,7 +115,7 @@ def _(CFDE, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 110,
+  '@id': 'fairshake:110',
   'name': 'Access protocol',
   'description': 'The protocol for accessing the data is available and described with a URI',
   'detail': ''' The C2M2 does not provide a means of capturing information about file access ''',
@@ -133,7 +133,7 @@ from c2m2_assessment.ontology.parser.obo import OBOOntology
 OBI = memo(lambda: OBOOntology(fetch_cache('https://raw.githubusercontent.com/obi-ontology/obi/master/views/obi.obo', 'OBI.obo')))
 
 @rubric.metric({
-  '@id': 139,
+  '@id': 'fairshake:139',
   'name': 'Assay',
   'description': 'Assay is present and a proper CFDE-specified ontological term is found in the CFDE-specified ontologies.',
   'detail': ''' Identifies the proportion of files with OBI-verifiable identifiers ''',
@@ -168,7 +168,7 @@ from c2m2_assessment.ontology.parser.obo import OBOOntology
 UBERON = memo(lambda: OBOOntology(fetch_cache('http://purl.obolibrary.org/obo/uberon.obo', 'uberon.obo')))
 
 @rubric.metric({
-  '@id': 140,
+  '@id': 'fairshake:140',
   'name': 'Anatomical Part',
   'description': 'An anatomical part is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of biosamples with UBERON-verifiable identifiers ''',
@@ -203,7 +203,7 @@ from c2m2_assessment.ontology.parser.obo import OBOOntology
 DOID = memo(lambda: OBOOntology(fetch_cache('https://github.com/DiseaseOntology/HumanDiseaseOntology/raw/main/src/ontology/releases/doid.obo', 'doid.obo')))
 
 @rubric.metric({
-  '@id': 141,
+  '@id': 'fairshake:141',
   'name': 'Disease',
   'description': 'A disease is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of subject_disease/biosample_diseases with DOID-verifiable identifiers ''',
@@ -249,7 +249,7 @@ from c2m2_assessment.ontology.parser.obo import OBOOntology
 EDAM = memo(lambda: OBOOntology(fetch_cache('http://edamontology.org/EDAM.obo', 'EDAM.obo')))
 
 @rubric.metric({
-  '@id': 142,
+  '@id': 'fairshake:142',
   'name': 'File type',
   'description': 'A file type is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of files with EDAM-verifiable file_format and data_type term identifiers ''',
@@ -301,7 +301,7 @@ from c2m2_assessment.ontology.client.ncbi_taxon import NCBITaxonClient
 NCBITaxon = memo(lambda: NCBITaxonClient())
 
 @rubric.metric({
-  '@id': 143,
+  '@id': 'fairshake:143',
   'name': 'Taxonomy',
   'description': 'A taxonomy is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of subjects with NCBITaxon-verifiable Taxonomies ''',
@@ -337,7 +337,7 @@ SUBJECT_GRANULARITY_CELL_LINE = 'cfde_subject_granularity:4'
 Cellosaurus = memo(lambda: CellosaurusOntology(fetch_cache('ftp://ftp.expasy.org/databases/cellosaurus/cellosaurus.xml', 'cellosaurus.xml')))
 
 @rubric.metric({
-  '@id': 144,
+  '@id': 'fairshake:144',
   'name': 'Cell Line',
   'description': 'A cell line is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of subjects of granularity: cell line with Cellosaurus-verifiable cell-lines ''',
@@ -369,7 +369,7 @@ def _(CFDE, full=False, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 116,
+  '@id': 'fairshake:116',
   'name': 'Data Usage License',
   'description': 'A Data usage license is described',
   'detail': ''' No information about data usage licenses are described in the C2M2 ''',
@@ -383,7 +383,7 @@ def _(CFDE, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 108,
+  '@id': 'fairshake:108',
   'name': 'Resource identifier',
   'description': 'An identifier for the resource is present',
   'detail': ''' C2M2 requires files to declare a unique resource identifier ''',
@@ -400,7 +400,7 @@ from c2m2_assessment.ontology.client.pubchem import PubChemSubstanceSIDClient
 PubChemSubstances = memo(lambda: PubChemSubstanceSIDClient())
 
 @rubric.metric({
-  '@id': -30,
+  '@id': 'cfde_fair:30',
   'name': 'Substance',
   'description': 'A substance is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of substances with PubChem-verifiable substance identifiers ''',
@@ -446,7 +446,7 @@ from c2m2_assessment.ontology.client.pubchem import PubChemCompoundCIDClient
 PubChemCompounds = memo(lambda: PubChemCompoundCIDClient())
 
 @rubric.metric({
-  '@id': -31,
+  '@id': 'cfde_fair:31',
   'name': 'Compound',
   'description': 'A compound is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of substances with PubChem-verifiable compound identifiers ''',
@@ -481,7 +481,7 @@ from c2m2_assessment.ontology.client.ensembl import EnsemblClient
 Ensembl = memo(lambda: EnsemblClient())
 
 @rubric.metric({
-  '@id': -32,
+  '@id': 'cfde_fair:32',
   'name': 'Gene',
   'description': 'A gene is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of genes with Ensembl-verifiable gene identifiers ''',

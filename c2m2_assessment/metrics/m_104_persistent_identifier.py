@@ -6,7 +6,7 @@ from c2m2_assessment.fairshake.metric import Metric
 
 @Metric.create({
   # Persistent identifier (105)
-  '@id': 104,
+  '@id': 'fairshake:104',
   'name': 'Persistent identifier',
   'description': 'Globally unique, persistent, and valid identifiers (preferrably DOIs) are present for the dataset',
   'detail': '''We check that the persistent id that are present''',
