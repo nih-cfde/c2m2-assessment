@@ -32,7 +32,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_files_associated_with_data_type / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_files_associated_with_data_type} / {total_files(CFDE)}",
+    'numerator': total_files_associated_with_data_type,
+    'denominator': total_files(CFDE),
   }
 
 #%%
@@ -53,7 +54,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_files_associated_with_file_format / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_files_associated_with_file_format} / {total_files(CFDE)}",
+    'numerator': total_files_associated_with_file_format,
+    'denominator': total_files(CFDE),
   }
 
 #%%
@@ -74,7 +76,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_files_associated_with_assay_type / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_files_associated_with_assay_type} / {total_files(CFDE)}",
+    'numerator': total_files_associated_with_assay_type,
+    'denominator': total_files(CFDE),
   }
 
 #%%
@@ -105,7 +108,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_files_associated_with_anatomy / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_files_associated_with_anatomy} / {total_files(CFDE)}",
+    'numerator': total_files_associated_with_anatomy,
+    'denominator': total_files(CFDE),
   }
 
 #%%
@@ -133,7 +137,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_files_associated_with_biosample / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_files_associated_with_biosample} / {total_files(CFDE)}",
+    'numerator': total_files_associated_with_biosample,
+    'denominator': total_files(CFDE),
   }
 
 #%%
@@ -161,7 +166,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_files_associated_with_subject / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_files_associated_with_subject} / {total_files(CFDE)}",
+    'numerator': total_files_associated_with_subject,
+    'denominator': total_files(CFDE),
   }
 
 #%%
@@ -194,7 +200,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_files_associated_with_subject_role / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_files_associated_with_subject_role} / {total_files(CFDE)}",
+    'numerator': total_files_associated_with_subject_role,
+    'denominator': total_files(CFDE),
   }
 
 #%%
@@ -230,7 +237,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_biosamples_associated_with_ncbi_taxon / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_biosamples_associated_with_ncbi_taxon} / {total_biosamples(CFDE)}",
+    'numerator': total_biosamples_associated_with_ncbi_taxon,
+    'denominator': total_biosamples(CFDE),
   }
 
 #%%
@@ -258,7 +266,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_biosamples_associated_with_subject / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_biosamples_associated_with_subject} / {total_biosamples(CFDE)}",
+    'numerator': total_biosamples_associated_with_subject,
+    'denominator': total_biosamples(CFDE),
   }
 
 #%%
@@ -286,7 +295,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_biosamples_associated_with_file / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_biosamples_associated_with_file} / {total_biosamples(CFDE)}",
+    'numerator': total_biosamples_associated_with_file,
+    'denominator': total_biosamples(CFDE),
   }
 
 #%%
@@ -307,7 +317,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_biosamples_associated_with_anatomy / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_biosamples_associated_with_anatomy} / {total_biosamples(CFDE)}",
+    'numerator': total_biosamples_associated_with_anatomy,
+    'denominator': total_biosamples(CFDE),
   }
 
 #%%
@@ -334,7 +345,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_biosamples_associated_with_assay / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_biosamples_associated_with_assay} / {total_biosamples(CFDE)}",
+    'numerator': total_biosamples_associated_with_assay,
+    'denominator': total_biosamples(CFDE),
   }
 
 #%%
@@ -360,7 +372,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_subjects_associated_with_taxonomy / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_subjects_associated_with_taxonomy} / {total_subjects(CFDE)}",
+    'numerator': total_subjects_associated_with_taxonomy,
+    'denominator': total_subjects(CFDE),
   }
 
 #%%
@@ -378,7 +391,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_subjects_associated_with_granularity / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_subjects_associated_with_granularity} / {total_subjects(CFDE)}",
+    'numerator': total_subjects_associated_with_granularity,
+    'denominator': total_subjects(CFDE),
   }
 
 #%%
@@ -401,7 +415,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_subjects_associated_with_role_taxonomy / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_subjects_associated_with_role_taxonomy} / {total_subjects(CFDE)}",
+    'numerator': total_subjects_associated_with_role_taxonomy,
+    'denominator': total_subjects(CFDE),
   }
 
 #%%
@@ -429,7 +444,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_subjects_associated_with_biosample / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_subjects_associated_with_biosample} / {total_subjects(CFDE)}",
+    'numerator': total_subjects_associated_with_biosample,
+    'denominator': total_subjects(CFDE),
   }
 
 #%%
@@ -457,7 +473,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_subjects_associated_with_file / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_subjects_associated_with_file} / {total_subjects(CFDE)}",
+    'numerator': total_subjects_associated_with_file,
+    'denominator': total_subjects(CFDE),
   }
 
 #%%
@@ -485,7 +502,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_files_not_in_collection / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_files_not_in_collection} / {total_files(CFDE)}",
+    'numerator': total_files_not_in_collection,
+    'denominator': total_files(CFDE),
   }
 
 #%%
@@ -513,7 +531,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_subjects_not_in_collection / total_subjects(CFDE)) if total_subjects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_subjects_not_in_collection} / {total_subjects(CFDE)}",
+    'numerator': total_subjects_not_in_collection,
+    'denominator': total_subjects(CFDE),
   }
 
 #%%
@@ -541,7 +560,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_biosamples_not_in_collection / total_biosamples(CFDE)) if total_biosamples(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_biosamples_not_in_collection} / {total_biosamples(CFDE)}",
+    'numerator': total_biosamples_not_in_collection,
+    'denominator': total_biosamples(CFDE),
   }
 
 #%%
@@ -568,7 +588,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_projects_associated_with_anatomy / total_projects(CFDE)) if total_projects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_projects_associated_with_anatomy} / {total_projects(CFDE)}",
+    'numerator': total_projects_associated_with_anatomy,
+    'denominator': total_projects(CFDE),
   }
 
 #%%
@@ -592,7 +613,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_projects_associated_with_file / total_projects(CFDE)) if total_projects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_projects_associated_with_file} / {total_projects(CFDE)}",
+    'numerator': total_projects_associated_with_file,
+    'denominator': total_projects(CFDE),
   }
 
 #%%
@@ -619,7 +641,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_projects_associated_with_data_type / total_projects(CFDE)) if total_projects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_projects_associated_with_data_type} / {total_projects(CFDE)}",
+    'numerator': total_projects_associated_with_data_type,
+    'denominator': total_projects(CFDE),
   }
 
 #%%
@@ -643,7 +666,8 @@ def _(CFDE, full=False, **kwargs):
   value = (total_projects_associated_with_subject / total_projects(CFDE)) if total_projects(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f"{total_projects_associated_with_subject} / {total_projects(CFDE)}",
+    'numerator': total_projects_associated_with_subject,
+    'denominator': total_projects(CFDE),
   }
 
 #%%
@@ -674,7 +698,8 @@ def _(CFDE, full=False, **kwargs):
   value = (1 - (unused_anatomy_terms.shape[0] / total)) if total else float('nan')
   return {
     'value': value,
-    'comment': f"{len(used_anatomy_ids)} / {total}",
+    'numerator': len(used_anatomy_ids),
+    'denominator': total,
     'supplement': unused_anatomy_terms.to_dict(),
   }
 
@@ -711,7 +736,8 @@ def _(CFDE, full=False, **kwargs):
   value = (1 - (unused_taxonomy_terms.shape[0] / total)) if total else float('nan')
   return {
     'value': value,
-    'comment': f"{len(used_taxonomy_ids)} / {total}",
+    'numerator': len(used_taxonomy_ids),
+    'denominator': total,
     'supplement': unused_taxonomy_terms.to_dict(),
   }
 
@@ -742,7 +768,8 @@ def _(CFDE, full=False, **kwargs):
   value = (1 - (unused_assay_type_terms.shape[0] / total)) if total else float('nan')
   return {
     'value': value,
-    'comment': f"{len(used_assay_type_ids)} / {total}",
+    'numerator': len(used_assay_type_ids),
+    'denominator': total,
     'supplement': unused_assay_type_terms.to_dict(),
   }
 
@@ -773,7 +800,8 @@ def _(CFDE, full=False, **kwargs):
   value = (1 - (unused_file_format_terms.shape[0] / total)) if total else float('nan')
   return {
     'value': value,
-    'comment': f"{len(used_file_format_ids)} / {total}",
+    'numerator': len(used_file_format_ids),
+    'denominator': total,
     'supplement': unused_file_format_terms.to_dict(),
   }
 
@@ -804,6 +832,7 @@ def _(CFDE, full=False, **kwargs):
   value = (1 - (unused_data_type_terms.shape[0] / total)) if total else float('nan')
   return {
     'value': value,
-    'comment': f"{len(used_data_type_ids)} / {total}",
+    'numerator': len(used_data_type_ids),
+    'denominator': total,
     'supplement': unused_data_type_terms.to_dict(),
   }

@@ -158,7 +158,8 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -192,7 +193,8 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -237,7 +239,8 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -288,7 +291,8 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -322,7 +326,8 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / n_subjects if n_subjects else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_subjects}",
+    'numerator': n_good,
+    'denominator': n_subjects,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -357,7 +362,8 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -430,7 +436,8 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -464,7 +471,8 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -498,6 +506,7 @@ def _(CFDE, full=False, **kwargs):
   value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }

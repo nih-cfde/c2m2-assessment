@@ -21,7 +21,8 @@ def metric(CFDE, full=False, **kwargs):
   value = (total_qualified_persistent_ids / total_files(CFDE)) if total_files(CFDE) else float('nan')
   return {
     'value': value,
-    'comment': f'{total_qualified_persistent_ids} / {total_files(CFDE)}',
+    'numerator': total_qualified_persistent_ids,
+    'denominator': total_files(CFDE),
     'supplement': qualified_persistent_ids.to_dict() if full else pd.concat([
       qualified_persistent_ids.head(5),
       qualified_persistent_ids.tail(5),
