@@ -33,7 +33,7 @@ def metric(CFDE, full=False, **kwargs):
     for table_name, table in CFDE.tables.items()
     for entity in table.entities()
   ).groupby('table')['coverage'].describe().fillna(0).sort_values('mean')
-  value = coverage['mean'].mean()
+  value = float(coverage['mean'].mean())
   return {
     'value': value,
     'comment': f'See metadata coverage for more info',

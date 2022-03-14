@@ -38,8 +38,9 @@ def metric(CFDE, full=False, **kwargs):
   #     results[file_id]['value'] = 0.0
   #     results[file_id]['comment'] = f"Error: {e}"
   # results = pd.DataFrame(results).T
+  # value = float(results['value'].mean())
   # return {
-  #   'value': results['value'].mean(),
+  #   'value': float(value),
   #   'comment': f'based on status_code reports via HEAD',
   #   'supplement': results.to_dict() if full else pd.concat([
   #     results.head(5),
