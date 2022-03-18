@@ -10,9 +10,9 @@ from c2m2_assessment.resolvers.CFDE_totals import (
 
 rubric = Rubric()
 
-rubric.metric('c2m2_assessment.metrics.m_106_metadata_conformance.metric')
-rubric.metric('c2m2_assessment.metrics.m_104_persistent_identifier.metric')
-rubric.metric('c2m2_assessment.metrics.m_145_landing_page.metric')
+rubric.metric('c2m2_assessment.metrics.m_fairshake_106_metadata_conformance.metric')
+rubric.metric('c2m2_assessment.metrics.m_fairshake_104_persistent_identifier.metric')
+rubric.metric('c2m2_assessment.metrics.m_fairshake_145_landing_page.metric')
 
 #%%
 @rubric.metric({
