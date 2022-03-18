@@ -17,10 +17,8 @@ rubric.metric('c2m2_assessment.metrics.m_145_landing_page.metric')
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:1',
-  'name': 'ratio files are associated with data type term',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'files with data type',
+  'description': 'What ratio of files are assiciated with a data type',
 })
 def m_cfde_fair_1(CFDE, full=False, **kwargs):
   total_files_associated_with_data_type = CFDE.tables['data_type'] \
@@ -39,10 +37,8 @@ def m_cfde_fair_1(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:2',
-  'name': 'ratio files are associated with file format term',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'files with file format',
+  'description': 'What ratio of files are assiciated with a file format',
 })
 def m_cfde_fair_2(CFDE, full=False, **kwargs):
   total_files_associated_with_file_format = CFDE.tables['file_format'] \
@@ -61,10 +57,8 @@ def m_cfde_fair_2(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:3',
-  'name': 'ratio files are associated with assaytype term',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'files with assay type',
+  'description': 'What ratio of files are assiciated with a assay type',
 })
 def m_cfde_fair_3(CFDE, full=False, **kwargs):
   total_files_associated_with_assay_type = CFDE.tables['assay_type'] \
@@ -83,10 +77,8 @@ def m_cfde_fair_3(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:4',
-  'name': 'ratio files are associate with anatomy term',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'files with anatomy',
+  'description': 'What ratio of files are assiciated with an anatomy term',
 })
 def m_cfde_fair_4(CFDE, full=False, **kwargs):
   total_files_associated_with_anatomy = CFDE.tables['anatomy'] \
@@ -115,10 +107,8 @@ def m_cfde_fair_4(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:5',
-  'name': 'ratio files are associated with a biosample',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'files with biosample',
+  'description': 'What ratio of files are assiciated with a biosample',
 })
 def m_cfde_fair_5(CFDE, full=False, **kwargs):
   total_files_associated_with_biosample = CFDE.tables['biosample'] \
@@ -144,10 +134,8 @@ def m_cfde_fair_5(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:6',
-  'name': 'ratio files are associated with a subject',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'files with subject',
+  'description': 'What ratio of files are assiciated with a subject',
 })
 def m_cfde_fair_6(CFDE, full=False, **kwargs):
   total_files_associated_with_subject = CFDE.tables['subject'] \
@@ -207,10 +195,8 @@ def m_cfde_fair_7(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:8',
-  'name': 'ratio biosamples are associated with a species term (NCBI Taxon)',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'files with species',
+  'description': 'What ratio of files are assiciated with a species',
 })
 def m_cfde_fair_8(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_ncbi_taxon = CFDE.tables['ncbi_taxonomy'] \
@@ -244,10 +230,8 @@ def m_cfde_fair_8(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:9',
-  'name': 'ratio biosamples are associated with a subject',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'biosamples with subject',
+  'description': 'What ratio of biosamples are assiciated with a subject',
 })
 def m_cfde_fair_9(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_subject = CFDE.tables['subject'] \
@@ -273,10 +257,8 @@ def m_cfde_fair_9(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:10',
-  'name': 'ratio biosamples are associated with a file',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'biosamples with file',
+  'description': 'What ratio of biosamples are assiciated with a files',
 })
 def m_cfde_fair_10(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_file = CFDE.tables['file'] \
@@ -302,10 +284,8 @@ def m_cfde_fair_10(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:11',
-  'name': 'ratio biosamples are associated with an anatomy term',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'biosamples with anatomy',
+  'description': 'What ratio of biosamples are assiciated with an anatomy term',
 })
 def m_cfde_fair_11(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_anatomy = CFDE.tables['anatomy'] \
@@ -324,10 +304,8 @@ def m_cfde_fair_11(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:12',
-  'name': 'ratio biosamples are associated with an assay term',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'biosamples with assay',
+  'description': 'What ratio of biosamples are assiciated with an assay',
 })
 def m_cfde_fair_12(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_assay = CFDE.tables['file'].filter(CFDE.tables['file'].assay_type != None)   .link(CFDE.tables['file_describes_biosample'], on=((
@@ -352,10 +330,8 @@ def m_cfde_fair_12(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:13',
-  'name': 'ratio subjects are associated with a taxonomy',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'subjects with taxonomy',
+  'description': 'What ratio of subjects are assigned a species',
 })
 def m_cfde_fair_13(CFDE, full=False, **kwargs):
   total_subjects_associated_with_taxonomy = CFDE.tables['ncbi_taxonomy'] \
@@ -379,10 +355,8 @@ def m_cfde_fair_13(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:14',
-  'name': 'ratio subjects have subject granularity',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'subjects with granularity',
+  'description': 'What ratio of subjects are assigned a granularity',
 })
 def m_cfde_fair_14(CFDE, full=False, **kwargs):
   total_subjects_associated_with_granularity = CFDE.tables['subject'].filter(
@@ -398,10 +372,8 @@ def m_cfde_fair_14(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:15',
-  'name': 'ratio subjects have taxonomic role',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'subjects with taxonomic role',
+  'description': 'What ratio of subjects are assigned a taxinomic role',
 })
 def m_cfde_fair_15(CFDE, full=False, **kwargs):
   total_subjects_associated_with_role_taxonomy = CFDE.tables['subject_role_taxonomy'] \
@@ -422,10 +394,8 @@ def m_cfde_fair_15(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:16',
-  'name': 'ratio subjects associated with a biosample',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'subjects with biosample',
+  'description': 'What ratio of subjects are assiciated with a biosample',
 })
 def m_cfde_fair_16(CFDE, full=False, **kwargs):
   total_subjects_associated_with_biosample = CFDE.tables['biosample'] \
@@ -451,10 +421,8 @@ def m_cfde_fair_16(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:17',
-  'name': 'ratio subjects associated with a file',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'subjects with file',
+  'description': 'What ratio of subjects are assiciated with a file',
 })
 def m_cfde_fair_17(CFDE, full=False, **kwargs):
   total_subjects_associated_with_file = CFDE.tables['file'] \
@@ -480,10 +448,8 @@ def m_cfde_fair_17(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:18',
-  'name': 'IF there are collections: # of files that are part of a collection',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'files in collections',
+  'description': 'What ratio of files are in at least one collection',
 })
 def m_cfde_fair_18(CFDE, full=False, **kwargs):
   total_files_not_in_collection = CFDE.tables['collection'] \
@@ -509,10 +475,8 @@ def m_cfde_fair_18(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:19',
-  'name': 'IF there are collections: # of subjects that are part of a collection',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'subjects in collections',
+  'description': 'What ratio of subjects are in at least one collection',
 })
 def m_cfde_fair_19(CFDE, full=False, **kwargs):
   total_subjects_not_in_collection = CFDE.tables['collection'] \
@@ -538,10 +502,8 @@ def m_cfde_fair_19(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:20',
-  'name': 'IF there are collections: # of biosamples that are part of a collection',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'biosamples in collections',
+  'description': 'What ratio of biosamples are in at least one collection',
 })
 def m_cfde_fair_20(CFDE, full=False, **kwargs):
   total_biosamples_not_in_collection = CFDE.tables['collection'] \
@@ -567,10 +529,8 @@ def m_cfde_fair_20(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:21',
-  'name': 'Project associated with anatomy',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'projects with anatomy',
+  'description': 'What ratio of projects are assigned an anatomy term',
 })
 def m_cfde_fair_21(CFDE, full=False, **kwargs):
   # NOTE: does not include recursive projects
@@ -595,10 +555,8 @@ def m_cfde_fair_21(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:22',
-  'name': 'Project associated with files',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'projects with files',
+  'description': 'What ratio of projects are associated with at least one file',
 })
 def m_cfde_fair_22(CFDE, full=False, **kwargs):
   # NOTE: does not include recursive projects
@@ -620,10 +578,8 @@ def m_cfde_fair_22(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:23',
-  'name': 'Project associated with data types',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'projects with data types',
+  'description': 'What ratio of projects are assigned a data type',
 })
 def m_cfde_fair_23(CFDE, full=False, **kwargs):
   # NOTE: does not include recursive projects
@@ -648,10 +604,8 @@ def m_cfde_fair_23(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:24',
-  'name': 'Project associated with subjects',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  'name': 'projects with subjects',
+  'description': 'What ratio of projects are associated with at least one subject',
 })
 def m_cfde_fair_24(CFDE, full=False, **kwargs):
   # NOTE: does not include recursive projects
