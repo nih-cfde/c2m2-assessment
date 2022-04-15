@@ -58,7 +58,7 @@ class Rubric:
         except Exception as e:
           logger.error(traceback.format_exc())
           answer = {
-            'value': float('nan'),
+            'value': None,
             'comment': f"An error occurred: {e}",
           }
         answer = Answer(target, metric, answer)

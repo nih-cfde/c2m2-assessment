@@ -4,7 +4,7 @@ from c2m2_assessment.fairshake.metric import Metric
 @Metric.create({
   # standardized metadata format (107), machine readable metadata (106)
   # metadata license (117) (c2m2 ?)
-  '@id': 106,
+  '@id': 'fairshake:106',
   'name': 'Metadata conformance',
   'description': 'The metadata properly conforms with the CFDE perscribed metadata model specification',
   'detail': '''The average metadata coverage of all tables''',
@@ -33,7 +33,7 @@ def metric(CFDE, full=False, **kwargs):
     for table_name, table in CFDE.tables.items()
     for entity in table.entities()
   ).groupby('table')['coverage'].describe().fillna(0).sort_values('mean')
-  value = coverage['mean'].mean()
+  value = float(coverage['mean'].mean())
   return {
     'value': value,
     'comment': f'See metadata coverage for more info',

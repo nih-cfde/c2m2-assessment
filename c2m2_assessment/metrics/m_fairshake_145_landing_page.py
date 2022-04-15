@@ -1,7 +1,7 @@
 from c2m2_assessment.fairshake.metric import Metric
 
 @Metric.create({
-  '@id': 145,
+  '@id': 'fairshake:145',
   'name': 'Landing Page',
   'description': 'A landing page exists and is accessible for the identifiers',
   'detail': '''Checks to make sure the persistent_id is resolvable with a HEAD request. if it is not http/https it is assumed to be an identifiers.org-resolvable CURIE. note that this is still error prone, some identifier websites do not follow HTTP standards and may not report 404s with ids that aren't found.''',
@@ -10,7 +10,7 @@ from c2m2_assessment.fairshake.metric import Metric
 })
 def metric(CFDE, full=False, **kwargs):
   return {
-    'value': float('nan'),
+    'value': None,
     'comment': 'Skipped',
   }
   # import requests
@@ -38,8 +38,9 @@ def metric(CFDE, full=False, **kwargs):
   #     results[file_id]['value'] = 0.0
   #     results[file_id]['comment'] = f"Error: {e}"
   # results = pd.DataFrame(results).T
+  # value = float(results['value'].mean())
   # return {
-  #   'value': results['value'].mean(),
+  #   'value': float(value),
   #   'comment': f'based on status_code reports via HEAD',
   #   'supplement': results.to_dict() if full else pd.concat([
   #     results.head(5),

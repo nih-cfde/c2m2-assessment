@@ -10,19 +10,19 @@ logger = logging.getLogger(__name__)
 
 rubric = Rubric()
 
-rubric.metric('c2m2_assessment.metrics.m_106_metadata_conformance.metric')
-rubric.metric('c2m2_assessment.metrics.m_104_persistent_identifier.metric')
-rubric.metric('c2m2_assessment.metrics.m_145_landing_page.metric')
+rubric.metric('c2m2_assessment.metrics.m_fairshake_106_metadata_conformance.metric')
+rubric.metric('c2m2_assessment.metrics.m_fairshake_104_persistent_identifier.metric')
+rubric.metric('c2m2_assessment.metrics.m_fairshake_145_landing_page.metric')
 
 #%%
 @rubric.metric({
-  '@id': 136,
+  '@id': 'fairshake:136',
   'name': 'Program name',
   'description': 'Program name is available for querying',
   'detail': ''' Checks the dcc table for the dcc_name ''',
   'principle': 'Findable',
 })
-def _(CFDE, **kwargs):
+def m_fairshake_136_program_name(CFDE, **kwargs):
   try:
     if 'dcc' in CFDE.tables:
       dcc = CFDE.tables['dcc']
@@ -43,13 +43,13 @@ def _(CFDE, **kwargs):
     }
 
 @rubric.metric({
-  '@id': 137,
+  '@id': 'fairshake:137',
   'name': 'Project name',
   'description': 'Project name is available for querying',
   'detail': ''' Checks the dcc table for the project, and then the project table for its name ''',
   'principle': 'Findable',
 })
-def _(CFDE, **kwargs):
+def m_fairshake_137_project_name(CFDE, **kwargs):
   try:
     if 'dcc' in CFDE.tables:
       dcc = CFDE.tables['dcc']
@@ -71,13 +71,13 @@ def _(CFDE, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 27,
+  '@id': 'fairshake:27',
   'name': 'PI Contact',
   'description': 'PI Contact is available for dataset',
   'detail': ''' Checks the primary_dcc_contact table for the contact_name and contact_email entries ''',
   'principle': 'Reusable',
 })
-def _(CFDE, **kwargs):
+def m_fairshake_27_pi_contact(CFDE, **kwargs):
   try:
     if 'dcc' in CFDE.tables:
       dcc = CFDE.tables['dcc']
@@ -101,13 +101,13 @@ def _(CFDE, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 138,
+  '@id': 'fairshake:138',
   'name': 'Responsible institution',
   'description': 'The institution that created this dataset is available',
   'detail': ''' No information about the contributing institution is currently available in the C2M2 ''',
   'principle': 'Findable',
 })
-def _(CFDE, **kwargs):
+def m_fairshake_138_responsible_institution(CFDE, **kwargs):
   return {
     'value': 0,
     'comment': 'No information about the contributing institution is currently available in the C2M2'
@@ -115,13 +115,13 @@ def _(CFDE, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 110,
+  '@id': 'fairshake:110',
   'name': 'Access protocol',
   'description': 'The protocol for accessing the data is available and described with a URI',
   'detail': ''' The C2M2 does not provide a means of capturing information about file access ''',
   'principle': 'Accessible',
 })
-def _(CFDE, **kwargs):
+def m_fairshake_110_access_protocol(CFDE, **kwargs):
   return {
     'value': 0,
     'comment': 'The C2M2 does not provide a means of capturing information about file access'
@@ -133,13 +133,13 @@ from c2m2_assessment.ontology.parser.obo import OBOOntology
 OBI = memo(lambda: OBOOntology(fetch_cache('https://raw.githubusercontent.com/obi-ontology/obi/master/views/obi.obo', 'OBI.obo')))
 
 @rubric.metric({
-  '@id': 139,
+  '@id': 'fairshake:139',
   'name': 'Assay',
   'description': 'Assay is present and a proper CFDE-specified ontological term is found in the CFDE-specified ontologies.',
   'detail': ''' Identifies the proportion of files with OBI-verifiable identifiers ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_fairshake_139_assay(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'file' in CFDE.tables:
@@ -155,10 +155,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -167,13 +168,13 @@ from c2m2_assessment.ontology.parser.obo import OBOOntology
 UBERON = memo(lambda: OBOOntology(fetch_cache('http://purl.obolibrary.org/obo/uberon.obo', 'uberon.obo')))
 
 @rubric.metric({
-  '@id': 140,
+  '@id': 'fairshake:140',
   'name': 'Anatomical Part',
   'description': 'An anatomical part is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of biosamples with UBERON-verifiable identifiers ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_fairshake_140_anatomy(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'biosample' in CFDE.tables:
@@ -189,10 +190,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -201,13 +203,13 @@ from c2m2_assessment.ontology.parser.obo import OBOOntology
 DOID = memo(lambda: OBOOntology(fetch_cache('https://github.com/DiseaseOntology/HumanDiseaseOntology/raw/main/src/ontology/releases/doid.obo', 'doid.obo')))
 
 @rubric.metric({
-  '@id': 141,
+  '@id': 'fairshake:141',
   'name': 'Disease',
   'description': 'A disease is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of subject_disease/biosample_diseases with DOID-verifiable identifiers ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_fairshake_141_disease(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'subject_disease' in CFDE.tables:
@@ -234,10 +236,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -246,13 +249,13 @@ from c2m2_assessment.ontology.parser.obo import OBOOntology
 EDAM = memo(lambda: OBOOntology(fetch_cache('http://edamontology.org/EDAM.obo', 'EDAM.obo')))
 
 @rubric.metric({
-  '@id': 142,
+  '@id': 'fairshake:142',
   'name': 'File type',
   'description': 'A file type is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of files with EDAM-verifiable file_format and data_type term identifiers ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_fairshake_142_file_type(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'file' in CFDE.tables:
@@ -285,10 +288,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.DataFrame(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -297,13 +301,13 @@ from c2m2_assessment.ontology.client.ncbi_taxon import NCBITaxonClient
 NCBITaxon = memo(lambda: NCBITaxonClient())
 
 @rubric.metric({
-  '@id': 143,
+  '@id': 'fairshake:143',
   'name': 'Taxonomy',
   'description': 'A taxonomy is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of subjects with NCBITaxon-verifiable Taxonomies ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_fairshake_143_taxonomy(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'subject_role_taxonomy' in CFDE.tables:
@@ -319,10 +323,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   issues = pd.Series(issues)
   n_subjects = total_subjects(CFDE)
-  value = n_good / n_subjects if n_subjects else float('nan')
+  value = n_good / n_subjects if n_subjects else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_subjects}",
+    'numerator': n_good,
+    'denominator': n_subjects,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -332,13 +337,13 @@ SUBJECT_GRANULARITY_CELL_LINE = 'cfde_subject_granularity:4'
 Cellosaurus = memo(lambda: CellosaurusOntology(fetch_cache('ftp://ftp.expasy.org/databases/cellosaurus/cellosaurus.xml', 'cellosaurus.xml')))
 
 @rubric.metric({
-  '@id': 144,
+  '@id': 'fairshake:144',
   'name': 'Cell Line',
   'description': 'A cell line is present and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of subjects of granularity: cell line with Cellosaurus-verifiable cell-lines ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_fairshake_144_cell_line(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'subject' in CFDE.tables:
@@ -354,22 +359,23 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
 #%%
 @rubric.metric({
-  '@id': 116,
+  '@id': 'fairshake:116',
   'name': 'Data Usage License',
   'description': 'A Data usage license is described',
   'detail': ''' No information about data usage licenses are described in the C2M2 ''',
   'principle': 'Reusable',
 })
-def _(CFDE, **kwargs):
+def m_fairshake_116_data_usage_license(CFDE, **kwargs):
   return {
     'value': 0,
     'comment': 'No information about data usage licenses are described in the C2M2'
@@ -377,13 +383,13 @@ def _(CFDE, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 108,
+  '@id': 'fairshake:108',
   'name': 'Resource identifier',
   'description': 'An identifier for the resource is present',
   'detail': ''' C2M2 requires files to declare a unique resource identifier ''',
   'principle': 'Findable',
 })
-def _(CFDE, **kwargs):
+def m_fairshake_108_resource_identifier(CFDE, **kwargs):
   return {
     'value': 1.0,
     'comment': 'C2M2 requires files to declare a unique resource identifier'
@@ -394,13 +400,13 @@ from c2m2_assessment.ontology.client.pubchem import PubChemSubstanceSIDClient
 PubChemSubstances = memo(lambda: PubChemSubstanceSIDClient())
 
 @rubric.metric({
-  '@id': -30,
+  '@id': 'cfde_fair:30',
   'name': 'Substance',
   'description': 'A substance is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of substances with PubChem-verifiable substance identifiers ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_30_substance(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'biosample_substance' in CFDE.tables:
@@ -427,10 +433,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -439,13 +446,13 @@ from c2m2_assessment.ontology.client.pubchem import PubChemCompoundCIDClient
 PubChemCompounds = memo(lambda: PubChemCompoundCIDClient())
 
 @rubric.metric({
-  '@id': -31,
+  '@id': 'cfde_fair:31',
   'name': 'Compound',
   'description': 'A compound is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of substances with PubChem-verifiable compound identifiers ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_31_compound(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'substance' in CFDE.tables:
@@ -461,10 +468,11 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
 
@@ -473,13 +481,13 @@ from c2m2_assessment.ontology.client.ensembl import EnsemblClient
 Ensembl = memo(lambda: EnsemblClient())
 
 @rubric.metric({
-  '@id': -32,
+  '@id': 'cfde_fair:32',
   'name': 'Gene',
   'description': 'A gene is associated and the CFDE-specified ontological term is found in the CFDE-specified ontologies',
   'detail': ''' Identifies the proportion of genes with Ensembl-verifiable gene identifiers ''',
   'principle': 'Interoperable',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_32_gene(CFDE, full=False, **kwargs):
   n_good = 0
   issues = {}
   if 'biosample_gene' in CFDE.tables:
@@ -495,9 +503,10 @@ def _(CFDE, full=False, **kwargs):
         n_good += 1
   n_issues = len(issues)
   issues = pd.Series(issues)
-  value = n_good / (n_good + n_issues) if n_good + n_issues else float('nan')
+  value = n_good / (n_good + n_issues) if n_good + n_issues else None
   return {
     'value': value,
-    'comment': f"{n_good} / {n_good + n_issues}",
+    'numerator': n_good,
+    'denominator': n_good + n_issues,
     'supplement': issues.to_dict() if full else issues.value_counts().to_dict(),
   }
