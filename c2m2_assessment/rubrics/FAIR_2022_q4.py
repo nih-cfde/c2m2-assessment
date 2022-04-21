@@ -19,11 +19,9 @@ rubric.metric('c2m2_assessment.metrics.m_fairshake_104_persistent_identifier.met
 rubric.metric('c2m2_assessment.metrics.m_fairshake_145_landing_page.metric')
 
 @rubric.metric({
-  '@id': -33,
-  'name': 'Ratio of biosamples associated with a substance',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:33',
+  'name': 'biosamples with substance',
+  'description': 'What ratio of biosamples are assiciated with a substance',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -42,11 +40,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -34,
-  'name': 'Ratio of collections that are assigned a gene',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:34',
+  'name': 'collections with gene',
+  'description': 'What ratio of collections are assigned a gene',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -65,11 +61,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -35,
-  'name': 'Ratio of collections that are assigned a substance',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:35',
+  'name': 'collections with substance',
+  'description': 'What ratio of collections are assigned a substance',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -88,11 +82,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -36,
-  'name': 'Ratio of subjects associated with a substance',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:36',
+  'name': 'subjects with substance',
+  'description': 'What ratio of subjects are associated with a substance',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -111,11 +103,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -37,
-  'name': 'Ratio of biosamples assigned to a gene',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:37',
+  'name': 'biosamples with gene',
+  'description': 'What ratio of biosamples are associated with at least one gene',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -134,11 +124,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -38,
-  'name': 'Ratio of phenotypes associated with a gene',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:38',
+  'name': 'phenotypes with gene',
+  'description': 'What ratio of phenotypes are associated with a gene',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -156,11 +144,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -39,
-  'name': 'Ratio of proteins associated with a gene',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:39',
+  'name': 'proteins with gene',
+  'description': 'What ratio of proteins are associated with a gene',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -179,11 +165,9 @@ def _(CFDE, full=False, **kwargs):
 
 
 @rubric.metric({
-  '@id': -40,
-  'name': 'Ratio of collections associated with a protein',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:40',
+  'name': 'collections with protein',
+  'description': 'What ratio of collections are associated with at least one gene',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -202,11 +186,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -41,
-  'name': 'Ratio of subjects associated with a phenotype',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:41',
+  'name': 'subjects with phenotype',
+  'description': 'What ratio of subjects are associated with a phenotype',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -226,11 +208,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -42,
-  'name': 'Ratio of genes associated with a phenotype',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:42',
+  'name': 'genes with phenotype',
+  'description': 'What ratio of genes are associated with a phenotype',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -248,11 +228,9 @@ def _(CFDE, full=False, **kwargs):
   }
 
 @rubric.metric({
-  '@id': -43,
-  'name': 'Ratio of Diseases associated with a phenotype',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:43',
+  'name': 'diseases with phenotype',
+  'description': 'What ratio of diseases are associated with a phenotype',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
@@ -270,11 +248,9 @@ def _(CFDE, full=False, **kwargs):
   }
   
 @rubric.metric({
-  '@id': -44,
-  'name': 'Ratio of collections associated with a phenotype',
-  'description': '',
-  'detail': '',
-  'principle': '',
+  '@id': 'cfde_fair:44',
+  'name': 'collections with phenotype',
+  'description': 'What ratio of collections are associated with a phenotype',
 })
 def _(CFDE, full=False, **kwargs):
   total_associated = total = 0
