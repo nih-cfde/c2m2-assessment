@@ -245,8 +245,8 @@ def m_fairshake_141_disease(CFDE, full=False, **kwargs):
   }
 
 #%%
-from c2m2_assessment.ontology.parser.obo import OBOOntology
-EDAM = memo(lambda: OBOOntology(fetch_cache('http://edamontology.org/EDAM.obo', 'EDAM.obo')))
+from c2m2_assessment.ontology.parser.edam import EDAMOntology
+EDAM = memo(lambda: EDAMOntology(fetch_cache('http://edamontology.org/EDAM.tsv', 'EDAM.tsv')))
 
 @rubric.metric({
   '@id': 'fairshake:142',
@@ -268,20 +268,35 @@ def m_fairshake_142_file_type(CFDE, full=False, **kwargs):
         file_issues.update({
           'file_format': f'Missing file_format'
         })
-      elif EDAM().get(f"EDAM_{file_format}") is None:
-        n_good += 0.5
-        file_issues.update({
-          'file_format': f'Not found in EDAM: {file_format}'
-        })
+      else:
+        edam_file_format = EDAM().get(file_format)
+        if edam_file_format is None:
+          n_good += 0.5
+          file_issues.update({
+            'file_format': f'Not found in EDAM: {file_format}'
+          })
+        elif edam_file_format['obsolete']:
+          n_good += 0.75
+          file_issues.update({
+            'file_format': f'Found in EDAM but obsolete: {file_format}'
+          })
+      #
       if not data_type:
         file_issues.update({
           'data_type': f'Missing data_type'
         })
-      elif EDAM().get(f"EDAM_{data_type}") is None:
-        n_good += 0.5
-        file_issues.update({
-          'data_type': f'Not found in EDAM: {data_type}'
-        })
+      else:
+        edam_data_type = EDAM().get(data_type)
+        if edam_data_type is None:
+          n_good += 0.5
+          file_issues.update({
+            'data_type': f'Not found in EDAM: {data_type}'
+          })
+        elif edam_data_type['obsolete']:
+          file_issues.update({
+            'data_type': f'Found in EDAM but obsolete: {data_type}',
+          })
+      #
       if file_issues:
         issues[file_id] = file_issues
       else:
