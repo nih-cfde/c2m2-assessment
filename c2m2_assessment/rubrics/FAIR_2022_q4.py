@@ -1,11 +1,9 @@
 import pandas as pd
 from c2m2_assessment.fairshake.rubric import Rubric
 from c2m2_assessment.resolvers.CFDE_totals import (
-  total_files,
   total_collections,
   total_biosamples,
   total_subjects,
-  total_projects,
   total_genes,
   total_phenotypes,
   total_proteins,
@@ -23,7 +21,7 @@ rubric.metric('c2m2_assessment.metrics.m_fairshake_145_landing_page.metric')
   'name': 'biosamples with substance',
   'description': 'What ratio of biosamples are assiciated with a substance',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_33(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'biosample' in CFDE.tables and 'biosample_substance' in CFDE.tables:
@@ -45,7 +43,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'collections with gene',
   'description': 'What ratio of collections are assigned a gene',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_34(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'collection' in CFDE.tables and 'collection_gene' in CFDE.tables:
@@ -67,7 +65,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'collections with substance',
   'description': 'What ratio of collections are assigned a substance',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_35(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'collection' in CFDE.tables and 'collection_substance' in CFDE.tables:
@@ -89,7 +87,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'subjects with substance',
   'description': 'What ratio of subjects are associated with a substance',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_36(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'subject' in CFDE.tables and 'subject_substance' in CFDE.tables:
@@ -111,7 +109,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'biosamples with gene',
   'description': 'What ratio of biosamples are associated with at least one gene',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_37(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'biosample' in CFDE.tables and 'biosample_gene' in CFDE.tables:
@@ -133,7 +131,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'phenotypes with gene',
   'description': 'What ratio of phenotypes are associated with a gene',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_38(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'phenotype' in CFDE.tables and 'phenotype_gene' in CFDE.tables:
@@ -154,7 +152,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'proteins with gene',
   'description': 'What ratio of proteins are associated with a gene',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_39(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'protein' in CFDE.tables and 'protein_gene' in CFDE.tables:
@@ -170,13 +168,12 @@ def _(CFDE, full=False, **kwargs):
     'denominator': total,
   }
 
-
 @rubric.metric({
   '@id': 'cfde_fair:40',
   'name': 'collections with protein',
   'description': 'What ratio of collections are associated with at least one gene',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_40(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'collection' in CFDE.tables and 'collection_protein' in CFDE.tables:
@@ -198,7 +195,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'subjects with phenotype',
   'description': 'What ratio of subjects are associated with a phenotype',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_41(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'subject' in CFDE.tables and 'subject_phenotype' in CFDE.tables:
@@ -221,7 +218,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'genes with phenotype',
   'description': 'What ratio of genes are associated with a phenotype',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_42(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'gene' in CFDE.tables and 'phenotype_gene' in CFDE.tables:
@@ -242,7 +239,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'diseases with phenotype',
   'description': 'What ratio of diseases are associated with a phenotype',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_43(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'disease' in CFDE.tables and 'phenotype_disease' in CFDE.tables:
@@ -263,7 +260,7 @@ def _(CFDE, full=False, **kwargs):
   'name': 'collections with phenotype',
   'description': 'What ratio of collections are associated with a phenotype',
 })
-def _(CFDE, full=False, **kwargs):
+def m_cfde_fair_44(CFDE, full=False, **kwargs):
   total_associated = total = 0
   value = None
   if 'collection' in CFDE.tables and 'collection_phenotype' in CFDE.tables:
