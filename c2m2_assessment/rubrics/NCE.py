@@ -308,16 +308,10 @@ def m_cfde_fair_11(CFDE, full=False, **kwargs):
   'description': 'What ratio of biosamples are assiciated with an assay',
 })
 def m_cfde_fair_12(CFDE, full=False, **kwargs):
-  total_biosamples_associated_with_assay = CFDE.tables['file'].filter(CFDE.tables['file'].assay_type != None)   .link(CFDE.tables['file_describes_biosample'], on=((
-      CFDE.tables['file_describes_biosample'].file_id_namespace == CFDE.tables['file'].id_namespace
-    ) & (
-      CFDE.tables['file_describes_biosample'].file_local_id == CFDE.tables['file'].local_id
-    ))) \
-    .link(CFDE.tables['biosample'], on=((
-      CFDE.tables['biosample'].id_namespace == CFDE.tables['file_describes_biosample'].biosample_id_namespace
-    ) & (
-      CFDE.tables['biosample'].local_id == CFDE.tables['file_describes_biosample'].biosample_local_id
-    ))) \
+  total_biosamples_associated_with_assay = CFDE.tables['assay_type'] \
+    .link(CFDE.tables['biosample'], on=(
+      CFDE.tables['biosample'].assay_type == CFDE.tables['assay_type'].id
+    )) \
     .groupby(CFDE.tables['biosample'].id_namespace, CFDE.tables['biosample'].local_id) \
     .count()
   value = (total_biosamples_associated_with_assay / total_biosamples(CFDE)) if total_biosamples(CFDE) else None
