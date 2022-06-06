@@ -19,7 +19,7 @@ rubric.metric('c2m2_assessment.metrics.m_fairshake_145_landing_page.metric')
 @rubric.metric({
   '@id': 'cfde_fair:33',
   'name': 'biosamples with substance',
-  'description': 'What ratio of biosamples are assiciated with a substance',
+  'description': 'What ratio of biosamples are associated with a substance',
 })
 def m_cfde_fair_33(CFDE, full=False, **kwargs):
   total_associated = total = 0
