@@ -195,8 +195,8 @@ def m_cfde_fair_7(CFDE, full=False, **kwargs):
 #%%
 @rubric.metric({
   '@id': 'cfde_fair:8',
-  'name': 'files with species',
-  'description': 'What ratio of files are associated with a species',
+  'name': 'biosamples with species',
+  'description': 'What ratio of biosamples are associated with a species',
 })
 def m_cfde_fair_8(CFDE, full=False, **kwargs):
   total_biosamples_associated_with_ncbi_taxon = CFDE.tables['ncbi_taxonomy'] \
