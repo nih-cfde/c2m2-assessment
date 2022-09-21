@@ -303,26 +303,6 @@ def m_cfde_fair_11(CFDE, full=False, **kwargs):
 
 #%%
 @rubric.metric({
-  '@id': 'cfde_fair:12',
-  'name': 'biosamples with assay',
-  'description': 'What ratio of biosamples are associated with an assay',
-})
-def m_cfde_fair_12(CFDE, full=False, **kwargs):
-  total_biosamples_associated_with_assay = CFDE.tables['assay_type'] \
-    .link(CFDE.tables['biosample'], on=(
-      CFDE.tables['biosample'].assay_type == CFDE.tables['assay_type'].id
-    )) \
-    .groupby(CFDE.tables['biosample'].id_namespace, CFDE.tables['biosample'].local_id) \
-    .count()
-  value = (total_biosamples_associated_with_assay / total_biosamples(CFDE)) if total_biosamples(CFDE) else None
-  return {
-    'value': value,
-    'numerator': total_biosamples_associated_with_assay,
-    'denominator': total_biosamples(CFDE),
-  }
-
-#%%
-@rubric.metric({
   '@id': 'cfde_fair:13',
   'name': 'subjects with taxonomy',
   'description': 'What ratio of subjects are assigned a species',
