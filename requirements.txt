@@ -1,4 +1,4 @@
 click
 datapackage
-deriva-datapackage @ git+https://github.com/nih-cfde/deriva-datapackage@v1.0.5
+deriva-datapackage @ git+https://github.com/nih-cfde/deriva-datapackage@v1.0.6
 pandas
