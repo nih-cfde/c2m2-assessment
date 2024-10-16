@@ -9,6 +9,7 @@ total_phenotypes = memo(lambda CFDE: CFDE.tables['phenotype'].count())
 total_proteins = memo(lambda CFDE: CFDE.tables['protein'].count())
 total_genes = memo(lambda CFDE: CFDE.tables['gene'].count())
 total_diseases = memo(lambda CFDE: CFDE.tables['disease'].count())
+total_substances = memo(lambda CFDE: CFDE.tables['substance'].count())
 # entity_counts = memo(lambda CFDE: pd.Series({
 #   name: table.count()
 #   for name, table in CFDE.tables.items()

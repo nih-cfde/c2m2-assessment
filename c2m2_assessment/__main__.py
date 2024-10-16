@@ -4,7 +4,7 @@ import importlib
 from pathlib import Path
 from c2m2_assessment.rubrics import rubrics
 
-DEFAULT_RUBRIC = 'amanda2022'
+DEFAULT_RUBRIC = 'drc2024'
 
 def assess(CFDE, rubric=DEFAULT_RUBRIC, **kwargs):
   ''' Given a CFDE client, perform the assessment and return a table of results
