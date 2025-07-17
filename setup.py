@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
   name='c2m2-assessment',
-  version='0.1.0',
+  version='0.1.1',
   url='https://github.com/nih-cfde/c2m2-assessment',
   author='Daniel J. B. Clarke',
   author_email='danieljbclarkemssm@gmail.com',
