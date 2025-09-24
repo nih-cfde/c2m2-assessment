@@ -1,6 +1,7 @@
 from c2m2_assessment.fairshake.rubric import Rubric
 
 rubric = Rubric()
+rubric.metric('c2m2_assessment.metrics.m_cfde_access_url.metric')
 rubric.metric('c2m2_assessment.metrics.m_fairshake_104_persistent_identifier.metric')
 rubric.metric('c2m2_assessment.rubrics.NCE.m_cfde_fair_1')
 rubric.metric('c2m2_assessment.rubrics.NCE.m_cfde_fair_2')
