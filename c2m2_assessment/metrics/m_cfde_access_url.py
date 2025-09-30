@@ -15,16 +15,15 @@ def try_parse_url(url):
     except Exception as e:
       raise AssertionError(f"Failed to parse URI") from e
   except:
-    logging.warning(traceback.format_exc())
+    logging.debug(traceback.format_exc())
 
 def valid_drs_format(access_url_parsed):
   try:
     assert access_url_parsed.scheme == 'drs'
     assert access_url_parsed.hostname, "Expected hostname"
-    assert access_url_parsed.path.count('/') == 0, f"Expected opaque id"
-    assert access_url_parsed.path.count('/') > 1, f"Expected opaque id, received path {access_url_parsed.path[1:]}"
+    assert access_url_parsed.path.count('/') == 1, f"Expected opaque id, received path {access_url_parsed.path[1:]}"
   except:
-    logging.warning(traceback.format_exc())
+    logging.debug(traceback.format_exc())
     return False
   return True
 
@@ -55,7 +54,7 @@ def test_drs(access_url_parsed):
 def test_access_url(row):
   if row['parsed'].scheme in {'http', 'https'}: return test_http(row['access_url'])
   elif row['parsed'].scheme == 'drs': return test_drs(row['parsed'])
-  else:raise NotImplementedError(row['parsed'].scheme)
+  else: raise NotImplementedError(row['parsed'].scheme)
 
 @Metric.create({
   '@id': 'cfde_fair:100',
@@ -77,20 +76,23 @@ def metric(CFDE, full=False, **kwargs):
   access_urls['duplicated'] = access_urls['access_url'].dropna().duplicated(keep=False)
   # try parsing the access urls
   access_urls['parsed'] = access_urls['access_url'].apply(try_parse_url)
-  access_urls['scheme'] = access_urls[~pd.isna(access_urls['parsed'])].apply(lambda parsed: parsed.scheme)
+  access_urls['scheme'] = access_urls[~pd.isna(access_urls['parsed'])]['parsed'].apply(lambda parsed: parsed.scheme)
   # access urls must follow some scheme
   access_urls['valid_scheme'] = access_urls['scheme'].isin(['drs', 'http', 'https', 's3', 'gs', 'ftp', 'gsiftp', 'globus', 'htsget', 'sftp'])
   # validate drs format
   access_urls['valid_drs'] = access_urls[access_urls['scheme']=='drs']['parsed'].apply(valid_drs_format)
-  # test a random sample of 100 drs/http urls
-  access_urls['accessible'] = access_urls[access_urls['scheme'].isin(['drs', 'http', 'https'])].sample(100).apply(test_access_url, axis=1)
+  # test a random sample of at most 100 drs/http urls
+  applicable_for_testing = access_urls[access_urls['scheme'].isin(['drs', 'http', 'https'])]
+  applicable_for_testing = applicable_for_testing.sample(min(applicable_for_testing.shape[0], 100))
+  access_urls['accessible'] = applicable_for_testing.apply(test_access_url, axis=1)
   # incorporate all tests into one "valid" / not
-  access_urls['valid'] = (
-    (~access_urls['duplicated'].fillna(False))
-    & access_urls['valid_scheme'].fillna(False)
-    & access_urls['valid_drs'].fillna(True)
-    & access_urls['accessible'].fillna(True)
-  )
+  with pd.option_context('future.no_silent_downcasting', True):
+    access_urls['valid'] = (
+      (~(access_urls['duplicated'].fillna(False)))
+      & access_urls['valid_scheme'].fillna(False)
+      & access_urls['valid_drs'].fillna(True)
+      & access_urls['accessible'].fillna(True)
+    )
   # extrapolate, assuming sampled accessibility ratio applies to all valid urls
   numerator = ((access_urls['accessible'].sum() / access_urls['accessible'].count())) * access_urls['valid'].sum() if access_urls['accessible'].count() > 0 else 0
   value = (numerator / total_files(CFDE)) if total_files(CFDE) else None
